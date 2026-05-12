@@ -25,6 +25,6 @@ public class BookingService {
         return bookingRepo.findAll();
     }
 
-    //TODO: en metod som skapar en booking. Göra en CreateBookingRequest?
+    //TODO: en metod som skapar en booking. Göra en CreateBookingRequest? Kanske en transactional??
 
 }

@@ -1,6 +1,7 @@
 package se.jennifer.guesthouseapp.guesthouse.room.service;
 
 import org.springframework.stereotype.Service;
+import se.jennifer.guesthouseapp.guesthouse.error.NotFoundException;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
 import se.jennifer.guesthouseapp.guesthouse.room.repository.RoomRepository;
 
@@ -19,5 +20,9 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public Room getRoomById(Long id){
+        return roomRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Room not found"));
+    }
 
 }
