@@ -25,7 +25,7 @@ public class Booking {
 
     @NotNull(message="Startdate is requierd")
     @FutureOrPresent(message = "Startdate cannot be in the past")
-    private LocalDate startdate;
+    private LocalDate date;
 
     @NotNull(message = "Enddate is required")
     @FutureOrPresent(message = "Enddate cannot be in the past")
@@ -37,10 +37,10 @@ public class Booking {
     protected Booking(){
     }
 
-    public Booking(Customer customer, Room room, LocalDate startdate, BookingStatus status){
+    public Booking(Customer customer, Room room, LocalDate date, BookingStatus status){
         this.customer = customer;
         this.room = room;
-        this.startdate = startdate;
+        this.date = date;
         this.status = status;
     }
 
