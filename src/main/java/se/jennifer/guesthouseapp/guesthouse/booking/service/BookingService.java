@@ -6,12 +6,10 @@ import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
-import se.jennifer.guesthouseapp.guesthouse.customer.repository.CustomerRepository;
 import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
 import se.jennifer.guesthouseapp.guesthouse.error.BadRequest;
 import se.jennifer.guesthouseapp.guesthouse.error.NotFoundException;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
-import se.jennifer.guesthouseapp.guesthouse.room.repository.RoomRepository;
 import se.jennifer.guesthouseapp.guesthouse.room.service.RoomService;
 
 import java.time.LocalDate;
@@ -97,6 +95,7 @@ public class BookingService {
     *    DONE - Skapa metod cancelBooking
     *    DONE - Skapa metod getBookingsForCustomer(customerId)
     *    DONE - Skapa metod getBookingsForRoom
+    *    Skapa metod som ändrar en bokning
     *
     * */
 
