@@ -32,4 +32,35 @@ public class Room {
         this.pricePerNight = pricePerNight;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public @NotBlank(message = "Roomnumber cannot be empty") String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(@NotBlank(message = "Roomnumber cannot be empty") String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public @Min(value = 1, message = "A room must have at least one bed") int getBeds() {
+        return beds;
+    }
+
+    public void setBeds(@Min(value = 1, message = "A room must have at least one bed") int beds) {
+        this.beds = beds;
+    }
+
+    public @Min(value = 1, message = "Price per night needs to be greater than 0") int getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public void setPricePerNight(@Min(value = 1, message = "Price per night needs to be greater than 0") int pricePerNight) {
+        this.pricePerNight = pricePerNight;
+    }
 }

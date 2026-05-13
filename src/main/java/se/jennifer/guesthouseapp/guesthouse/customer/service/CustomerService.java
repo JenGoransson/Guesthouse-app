@@ -28,4 +28,15 @@ public class CustomerService {
         return customerRepository.save(newCustomer);
     }
 
+    /*TODO:
+    *  metod som uppdaterar kundens mail, får ej använda en email som redan är registrerad i systemet.
+    *  metod som uppdaterar kundens telefonnummer, får ej använda ett telenummer som redan finns i systemet.
+    *  metod som tar bort en kund OM hen inte har aktiva bokningar
+    *  metod som hömtar kund via ID
+    *  metod som kollar ifall en kund har aktiva bokningar
+    *  metod som hämtar kund via email
+    *  metod som hämtar alla bokningar för en kund
+    *
+    * */
+
 }

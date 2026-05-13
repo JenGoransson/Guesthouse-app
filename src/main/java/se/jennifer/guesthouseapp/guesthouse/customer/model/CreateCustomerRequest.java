@@ -14,5 +14,6 @@ public record CreateCustomerRequest(
         @Email(message = "Email must be a valid email address")
         String email,
         String phone
+
 ) {
 }
