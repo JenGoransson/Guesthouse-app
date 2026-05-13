@@ -38,4 +38,44 @@ public class Booking {
         this.startdate = startdate;
         this.status = status;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public @NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(@NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate startdate) {
+        this.startdate = startdate;
+    }
+
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
+    }
 }

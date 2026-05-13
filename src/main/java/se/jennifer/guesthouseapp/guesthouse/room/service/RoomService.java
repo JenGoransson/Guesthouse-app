@@ -25,4 +25,12 @@ public class RoomService {
                 .orElseThrow(() -> new NotFoundException("Room not found"));
     }
 
+    /* TODO:
+    *   metod som kollar om ett rum är bokat - boolean?.
+    *   metod som hämtar alla lediga rum.
+    *   metod som hämtar alla bokningar för ett rum - bra för admin.
+    *   extra --> metod som skapar ett rum
+    *   extra --> metod som uppdaterar ett rum: typ pris, antal sängar etc.
+    *
+    * */
 }

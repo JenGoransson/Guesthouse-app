@@ -25,6 +25,15 @@ public class BookingService {
         return bookingRepo.findAll();
     }
 
-    //TODO: en metod som skapar en booking. Göra en CreateBookingRequest? Kanske en transactional??
+    /*  TODO:
+    *    Skapa metod getBookingById()
+    *    Skapa metod createBooking() --> kolla om kunden som gör bokningen faktiskt finns + om rummet är ledigt. Transactional kan vara bra här!
+    *    Skapa metod isRoomBooked(roomId, date), denna metod ska RoomService anropa.
+    *    Skapa metod customerHasActiveBookings(customerId)
+    *    Skapa metod cancelBooking
+    *    Skapa metod getBookingsForCustomer(customerId)
+    *    Skapa metod getBookingsForRoom
+    *
+    * */
 
 }
