@@ -24,7 +24,7 @@ public class Booking {
 
     @NotNull(message="Startdate is requierd")
     @FutureOrPresent(message = "Startdate cannot be in the past")
-    private LocalDate startdate;
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
@@ -32,10 +32,10 @@ public class Booking {
     protected Booking(){
     }
 
-    public Booking(Customer customer, Room room, LocalDate startdate, BookingStatus status){
+    public Booking(Customer customer, Room room, LocalDate date, BookingStatus status){
         this.customer = customer;
         this.room = room;
-        this.startdate = startdate;
+        this.date = date;
         this.status = status;
     }
 
@@ -63,12 +63,12 @@ public class Booking {
         this.room = room;
     }
 
-    public @NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate getStartdate() {
-        return startdate;
+    public @NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate getDate() {
+        return date;
     }
 
-    public void setStartdate(@NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate startdate) {
-        this.startdate = startdate;
+    public void setDate(@NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate date) {
+        this.date = date;
     }
 
     public BookingStatus getStatus() {
