@@ -36,7 +36,7 @@ public class BookingService {
 
     public Booking getBookingById(Long id){
         return bookingRepo.findById(id)
-                .orElseThrow(() -> new NotFoundException("Booking with id " + id + " not found"))
+                .orElseThrow(() -> new NotFoundException("Booking with id " + id + " not found"));
     }
 
     public List<Booking> getBookingsForCustomer(Long customerId) {
@@ -66,17 +66,37 @@ public class BookingService {
     }
 
     public boolean isRoomBooked(Long roomId, LocalDate date) {
-        return bookingRepo.existsByRoomIdAndDateAndStatus(roomId, date, BookingStatus.ACTIVE);
+        return bookingRepo.existByRoomIdAndDateAndStatus(roomId, date, BookingStatus.ACTIVE);
     }
+
+    public boolean roomHasActiveBookings(Long roomId) {
+        return bookingRepo.existsByRoomIdAndStatus(roomId, BookingStatus.ACTIVE);
+    }
+
+    public boolean customerHasActiveBookings(Long customerId) {
+        return bookingRepo.existsByCustomerIdAndStatus(customerId, BookingStatus.ACTIVE);
+    }
+
+    public void cancelBooking(Long id){
+        Booking booking = getBookingById(id);
+
+        if (booking.getStatus() == BookingStatus.CANCELLED) {
+            throw new BadRequest("Booking with id " + id + " is already cancelled");
+        }
+
+        booking.setStatus(BookingStatus.CANCELLED);
+        bookingRepo.save(booking);
+    }
+
 
     /*  TODO:
     *    DONE - Skapa metod getBookingById()
-    *    Skapa metod createBooking() --> kolla om kunden som gör bokningen faktiskt finns + om rummet är ledigt. Transactional kan vara bra här!
-    *    Skapa metod isRoomBooked(roomId, date), denna metod ska RoomService anropa.
-    *    Skapa metod customerHasActiveBookings(customerId)
-    *    Skapa metod cancelBooking
-    *    Skapa metod getBookingsForCustomer(customerId)
-    *    Skapa metod getBookingsForRoom
+    *    DONE - Skapa metod createBooking() --> kolla om kunden som gör bokningen faktiskt finns + om rummet är ledigt. Transactional kan vara bra här!
+    *    DONE - Skapa metod isRoomBooked(roomId, date), denna metod ska RoomService anropa.
+    *    DONE - Skapa metod customerHasActiveBookings(customerId)
+    *    DONE - Skapa metod cancelBooking
+    *    DONE - Skapa metod getBookingsForCustomer(customerId)
+    *    DONE - Skapa metod getBookingsForRoom
     *
     * */
 
