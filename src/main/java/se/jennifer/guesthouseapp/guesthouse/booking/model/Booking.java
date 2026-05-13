@@ -1,6 +1,7 @@
 package se.jennifer.guesthouseapp.guesthouse.booking.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
@@ -26,6 +27,10 @@ public class Booking {
     @FutureOrPresent(message = "Startdate cannot be in the past")
     private LocalDate date;
 
+    @NotNull(message = "Enddate is required")
+    @FutureOrPresent(message = "Enddate cannot be in the past")
+    private LocalDate enddate;
+
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
@@ -39,43 +44,43 @@ public class Booking {
         this.status = status;
     }
 
-    public long getId() {
+    @AssertTrue(message = "Enddate must be after startdate")
+    public boolean isEndDataValid(){
+        return enddate != null && startdate != null && !enddate.isBefore(startdate);
+    }
+
+    public long getId(){
         return id;
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Customer getCustomer() {
+    public Customer getCustomer(){
         return customer;
     }
-
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Customer customer){
         this.customer = customer;
     }
-
-    public Room getRoom() {
+    public Room getRoom(){
         return room;
     }
-
-    public void setRoom(Room room) {
+    public void setRoom(Room room){
         this.room = room;
     }
-
-    public @NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate getDate() {
-        return date;
+    public LocalDate getStartdate(){
+        return startdate;
     }
-
-    public void setDate(@NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate date) {
-        this.date = date;
+    public void setStartdate(LocalDate startdate){
+        this.startdate = startdate;
     }
-
-    public BookingStatus getStatus() {
+    public LocalDate getEnddate(){
+        return enddate;
+    }
+    public void setEnddate(LocalDate enddate){
+        this.enddate = enddate;
+    }
+    public BookingStatus getStatus(){
         return status;
     }
-
-    public void setStatus(BookingStatus status) {
+    public void setStatus(BookingStatus status){
         this.status = status;
     }
+
 }
