@@ -47,24 +47,35 @@ public class BookingService {
 
     //Kanske göra en transactional här..?
     public Booking createBooking(CreateBookingRequest request) {
+
+        if(request.startDate().isAfter(request.endDate())){
+            throw new BadRequest("Start date cannot be after end date");
+        }
+
         Room room = roomService.getRoomById(request.roomId());
         Customer customer = customerService.getCustomerById(request.customerId());
 
-        if (isRoomBooked(room.getId(), request.date())) {
-            throw new BadRequest("Room is already booked on " + request.date());
+        if (isRoomBooked(room.getId(), request.startDate(), request.endDate())) {
+            throw new BadRequest("Room is already booked between " + request.startDate() +  " and " + request.endDate());
         }
 
         Booking booking = new Booking(
                 customer,
                 room,
-                request.date(),
+                request.startDate(),
+                request.endDate(),
                 BookingStatus.ACTIVE
         );
         return bookingRepo.save(booking);
     }
 
-    public boolean isRoomBooked(Long roomId, LocalDate date) {
-        return bookingRepo.existByRoomIdAndDateAndStatus(roomId, date, BookingStatus.ACTIVE);
+    public boolean isRoomBooked(Long roomId, LocalDate start, LocalDate end) {
+        return bookingRepo.existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                roomId,
+                BookingStatus.ACTIVE,
+                end,
+                start
+        );
     }
 
     public boolean roomHasActiveBookings(Long roomId) {

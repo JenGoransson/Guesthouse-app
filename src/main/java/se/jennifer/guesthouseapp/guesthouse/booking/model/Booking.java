@@ -22,9 +22,13 @@ public class Booking {
     @ManyToOne(optional = false)
     private Room room;
 
-    @NotNull(message="Startdate is requierd")
-    @FutureOrPresent(message = "Startdate cannot be in the past")
-    private LocalDate date;
+    @NotNull(message="Start date is required")
+    @FutureOrPresent(message = "Start date cannot be in the past")
+    private LocalDate startDate;
+
+    @NotNull(message="End date is required")
+    @FutureOrPresent(message="End date cannot be in the past")
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
@@ -32,10 +36,11 @@ public class Booking {
     protected Booking(){
     }
 
-    public Booking(Customer customer, Room room, LocalDate date, BookingStatus status){
+    public Booking(Customer customer, Room room, LocalDate startDate, LocalDate endDate, BookingStatus status){
         this.customer = customer;
         this.room = room;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.status = status;
     }
 
@@ -63,12 +68,20 @@ public class Booking {
         this.room = room;
     }
 
-    public @NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate getDate() {
-        return date;
+    public @NotNull(message = "Start date is required") @FutureOrPresent(message = "Start date cannot be in the past") LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setDate(@NotNull(message = "Startdate is requierd") @FutureOrPresent(message = "Startdate cannot be in the past") LocalDate date) {
-        this.date = date;
+    public void setStartDate(@NotNull(message = "Start date is required") @FutureOrPresent(message = "Start date cannot be in the past") LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public @NotNull(message = "End date is required") @FutureOrPresent(message = "End date cannot be in the past") LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(@NotNull(message = "End date is required") @FutureOrPresent(message = "End date cannot be in the past") LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public BookingStatus getStatus() {

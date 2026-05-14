@@ -5,5 +5,6 @@ import java.time.LocalDate;
 public record CreateBookingRequest(
         Long roomId,
         Long customerId,
-        LocalDate date
+        LocalDate startDate,
+        LocalDate endDate
 ) {}
