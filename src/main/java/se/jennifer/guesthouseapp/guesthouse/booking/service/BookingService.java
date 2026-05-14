@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
+import se.jennifer.guesthouseapp.guesthouse.booking.model.UpdateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
 import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
@@ -69,6 +70,36 @@ public class BookingService {
         return bookingRepo.save(booking);
     }
 
+    public Booking updateBooking(Long id, UpdateBookingRequest request) {
+
+        Booking booking = getBookingById(id);
+
+        if(request.startDate().isAfter(request.endDate())){
+            throw new BadRequest("Start date cannot be after end date");
+        }
+
+        Room room = booking.getRoom();
+        if(request.roomId() != null && !request.roomId().equals(booking.getRoom().getId())) {
+            room = roomService.getRoomById(request.roomId());
+        }
+
+        boolean overlaps = bookingRepo. existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                room.getId(),
+                BookingStatus.ACTIVE,
+                request.endDate(),
+                request.startDate()
+        );
+        if(overlaps && !room.getId().equals(booking.getRoom().getId())) {
+            throw new BadRequest("Room is already booked between this period");
+        }
+
+        booking.setRoom(room);
+        booking.setStartDate(request.startDate());
+        booking.setEndDate(request.endDate());
+
+        return bookingRepo.save(booking);
+    }
+
     public boolean isRoomBooked(Long roomId, LocalDate start, LocalDate end) {
         return bookingRepo.existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
                 roomId,
@@ -106,7 +137,7 @@ public class BookingService {
     *    DONE - Skapa metod cancelBooking
     *    DONE - Skapa metod getBookingsForCustomer(customerId)
     *    DONE - Skapa metod getBookingsForRoom
-    *    Skapa metod som ändrar en bokning!
+    *    DONE - Skapa metod som ändrar en bokning!
     *
     * */
 
