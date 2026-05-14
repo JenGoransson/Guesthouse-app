@@ -106,7 +106,7 @@ public class BookingService {
     *    DONE - Skapa metod cancelBooking
     *    DONE - Skapa metod getBookingsForCustomer(customerId)
     *    DONE - Skapa metod getBookingsForRoom
-    *    Skapa metod som ändrar en bokning
+    *    Skapa metod som ändrar en bokning!
     *
     * */
 

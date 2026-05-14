@@ -1,10 +1,10 @@
 package se.jennifer.guesthouseapp.guesthouse.booking.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
+import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
 
 import java.util.List;
@@ -29,10 +29,28 @@ public class BookingController {
         return bookingService.getBookingById(id);
     }
 
+    @GetMapping("/customer/{customerId}")
+    public List<Booking> getBookingsForCustomer(@PathVariable Long customerId){
+        return bookingService.getBookingsForCustomer(customerId);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public List<Booking>getBookingsForRoom(@PathVariable Long roomId){
+        return bookingService.getBookingsForRoom(roomId);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Booking createBooking(@RequestBody CreateBookingRequest request) {
+        return bookingService.createBooking(request);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBooking(@PathVariable Long id){
+        bookingService.cancelBooking(id);
+    }
 
 
-
-
-
-    /* TODO: Jennifer - fortsätt här!*/
+    /* TODO: Jennifer - Lägg till så man kan ändra bokning!*/
 }
