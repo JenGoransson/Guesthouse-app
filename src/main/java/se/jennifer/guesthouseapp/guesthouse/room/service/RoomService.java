@@ -24,6 +24,14 @@ public class RoomService {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
     }
+    public boolean isRoomBoken(long roomId){
+        Room room = getRoomById(roomId);
+        return !room.getBookings().isEmpty();
+    }
+    public List<Room> getAvailableRooms(){
+        return roomRepository.findAll().stream().filter(room -> room.getBookings().isEmpty()).toList();
+    }
+
 
     /* TODO:
     *   metod som kollar om ett rum är bokat - boolean?.
