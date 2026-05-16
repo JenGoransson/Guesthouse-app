@@ -1,7 +1,6 @@
 package se.jennifer.guesthouseapp.guesthouse.booking.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
@@ -10,7 +9,7 @@ import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/bookings")
 public class BookingController {
 
