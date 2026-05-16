@@ -1,11 +1,12 @@
 package se.jennifer.guesthouseapp.guesthouse.customer.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -26,6 +27,9 @@ public class Customer {
     private String email;
 
     private String phone;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Booking> bookings = new ArrayList<>();
 
     public Customer() {
     }
