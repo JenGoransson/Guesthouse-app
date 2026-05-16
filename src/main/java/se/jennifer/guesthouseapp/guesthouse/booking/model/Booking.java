@@ -1,7 +1,6 @@
 package se.jennifer.guesthouseapp.guesthouse.booking.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
@@ -23,13 +22,13 @@ public class Booking {
     @ManyToOne(optional = false)
     private Room room;
 
-    @NotNull(message="Startdate is requierd")
-    @FutureOrPresent(message = "Startdate cannot be in the past")
-    private LocalDate date;
+    @NotNull(message="Start date is required")
+    @FutureOrPresent(message = "Start date cannot be in the past")
+    private LocalDate startDate;
 
-    @NotNull(message = "Enddate is required")
-    @FutureOrPresent(message = "Enddate cannot be in the past")
-    private LocalDate enddate;
+    @NotNull(message="End date is required")
+    @FutureOrPresent(message="End date cannot be in the past")
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
@@ -37,50 +36,59 @@ public class Booking {
     protected Booking(){
     }
 
-    public Booking(Customer customer, Room room, LocalDate date, BookingStatus status){
+    public Booking(Customer customer, Room room, LocalDate startDate, LocalDate endDate, BookingStatus status){
         this.customer = customer;
         this.room = room;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.status = status;
     }
 
-    @AssertTrue(message = "Enddate must be after startdate")
-    public boolean isEndDataValid(){
-        return enddate != null && startdate != null && !enddate.isBefore(startdate);
-    }
-
-    public long getId(){
+    public long getId() {
         return id;
     }
-    public Customer getCustomer(){
-        return customer;
-    }
-    public void setCustomer(Customer customer){
-        this.customer = customer;
-    }
-    public Room getRoom(){
-        return room;
-    }
-    public void setRoom(Room room){
-        this.room = room;
-    }
-    public LocalDate getStartdate(){
-        return startdate;
-    }
-    public void setStartdate(LocalDate startdate){
-        this.startdate = startdate;
-    }
-    public LocalDate getEnddate(){
-        return enddate;
-    }
-    public void setEnddate(LocalDate enddate){
-        this.enddate = enddate;
-    }
-    public BookingStatus getStatus(){
-        return status;
-    }
-    public void setStatus(BookingStatus status){
-        this.status = status;
+
+    public void setId(long id) {
+        this.id = id;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public @NotNull(message = "Start date is required") @FutureOrPresent(message = "Start date cannot be in the past") LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(@NotNull(message = "Start date is required") @FutureOrPresent(message = "Start date cannot be in the past") LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public @NotNull(message = "End date is required") @FutureOrPresent(message = "End date cannot be in the past") LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(@NotNull(message = "End date is required") @FutureOrPresent(message = "End date cannot be in the past") LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
+    }
 }

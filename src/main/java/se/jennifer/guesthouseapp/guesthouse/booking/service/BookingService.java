@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
+import se.jennifer.guesthouseapp.guesthouse.booking.model.UpdateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
 import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
@@ -19,7 +20,7 @@ import java.util.List;
 public class BookingService {
 
     private final BookingRepository bookingRepo;
-    private final RoomService roomService;
+    private final RoomService roomService; //Använda repo eller service...?
     private final CustomerService customerService;
 
     public BookingService(BookingRepository bookingRepo, RoomService roomService, CustomerService customerService) {
@@ -47,24 +48,65 @@ public class BookingService {
 
     //Kanske göra en transactional här..?
     public Booking createBooking(CreateBookingRequest request) {
+
+        if(request.startDate().isAfter(request.endDate())){
+            throw new BadRequest("Start date cannot be after end date");
+        }
+
         Room room = roomService.getRoomById(request.roomId());
         Customer customer = customerService.getCustomerById(request.customerId());
 
-        if (isRoomBooked(room.getId(), request.date())) {
-            throw new BadRequest("Room is already booked on " + request.date());
+        if (isRoomBooked(room.getId(), request.startDate(), request.endDate())) {
+            throw new BadRequest("Room is already booked between " + request.startDate() +  " and " + request.endDate());
         }
 
         Booking booking = new Booking(
                 customer,
                 room,
-                request.date(),
+                request.startDate(),
+                request.endDate(),
                 BookingStatus.ACTIVE
         );
         return bookingRepo.save(booking);
     }
 
-    public boolean isRoomBooked(Long roomId, LocalDate date) {
-        return bookingRepo.existByRoomIdAndDateAndStatus(roomId, date, BookingStatus.ACTIVE);
+    public Booking updateBooking(Long id, UpdateBookingRequest request) {
+
+        Booking booking = getBookingById(id);
+
+        if(request.startDate().isAfter(request.endDate())){
+            throw new BadRequest("Start date cannot be after end date");
+        }
+
+        Room room = booking.getRoom();
+        if(request.roomId() != null && !request.roomId().equals(booking.getRoom().getId())) {
+            room = roomService.getRoomById(request.roomId());
+        }
+
+        boolean overlaps = bookingRepo. existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                room.getId(),
+                BookingStatus.ACTIVE,
+                request.endDate(),
+                request.startDate()
+        );
+        if(overlaps && !room.getId().equals(booking.getRoom().getId())) {
+            throw new BadRequest("Room is already booked between this period");
+        }
+
+        booking.setRoom(room);
+        booking.setStartDate(request.startDate());
+        booking.setEndDate(request.endDate());
+
+        return bookingRepo.save(booking);
+    }
+
+    public boolean isRoomBooked(Long roomId, LocalDate start, LocalDate end) {
+        return bookingRepo.existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                roomId,
+                BookingStatus.ACTIVE,
+                end,
+                start
+        );
     }
 
     public boolean roomHasActiveBookings(Long roomId) {
@@ -95,7 +137,7 @@ public class BookingService {
     *    DONE - Skapa metod cancelBooking
     *    DONE - Skapa metod getBookingsForCustomer(customerId)
     *    DONE - Skapa metod getBookingsForRoom
-    *    Skapa metod som ändrar en bokning
+    *    DONE - Skapa metod som ändrar en bokning!
     *
     * */
 

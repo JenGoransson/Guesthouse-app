@@ -1,35 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Guesthouse Login</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="login-body">
 
 <h1 class="welcome-title">The Guesthouse</h1>
 
-
 <div class="login-container">
     <h2>Login</h2>
     
-    <form th:action="@{/login}" method="post">
+    <form id="loginForm">
         <label>Email</label>
-        <input type="text" name="email" required>
+        <input type="email" id="email" required>
         
         <label>Password</label>
-        <input type="password" name="password" required>
+        <input type="password" id="password" required>
         
         <button type="submit">Login</button>
         
-        <p th:if="${error}" class="error">Invalid email or password</p>
+        <p id="errorMessage" class="error" style="display:none;">
+            Invalid email or password
+        </p>
     </form>
     
     <p class="switch-link">
-        Don´t have an account? <a href="/register">Create one</a>
+        Don’t have an account? <a href="register.html">Create one</a>
     </p>
 </div>
 
+<script src="app.js"></script>
 </body>
 </html>

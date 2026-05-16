@@ -9,7 +9,13 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking,Long> {
 
-    boolean existByRoomIdAndDateAndStatus(Long roomId, LocalDate date, BookingStatus status);
+    // Finns det en aktiv bokning som överlappar intervallet?
+    boolean existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+            Long roomId,
+            BookingStatus status,
+            LocalDate endDate,
+            LocalDate startDate
+    );
 
     boolean existsByRoomIdAndStatus(Long roomId, BookingStatus status);
 
