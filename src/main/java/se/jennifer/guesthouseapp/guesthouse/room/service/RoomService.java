@@ -14,10 +14,12 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     public RoomService(RoomRepository roomRepository) {
+
         this.roomRepository = roomRepository;
     }
 
     public List<Room> getAllRooms(){
+
         return roomRepository.findAll();
     }
 
@@ -39,6 +41,7 @@ public class RoomService {
     }
 
     public Room createRoom(Room room){
+
         return roomRepository.save(room);
     }
 
