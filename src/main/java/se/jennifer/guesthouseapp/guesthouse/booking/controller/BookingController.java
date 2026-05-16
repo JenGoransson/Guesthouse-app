@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
+import se.jennifer.guesthouseapp.guesthouse.booking.model.UpdateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
 
 import java.util.List;
@@ -52,5 +53,9 @@ public class BookingController {
     }
 
 
-    /* TODO: Jennifer - Lägg till så man kan ändra bokning!*/
+    @PutMapping("/{id}")
+    public Booking updateBooking(@PathVariable Long id,
+                                 @RequestBody UpdateBookingRequest request) {
+        return bookingService.updateBooking(id, request);
+    }
 }

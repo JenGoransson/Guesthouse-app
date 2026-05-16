@@ -1,6 +1,7 @@
 package se.jennifer.guesthouseapp.guesthouse.customer.service;
 
 import org.springframework.stereotype.Service;
+import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
 import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
@@ -13,16 +14,16 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final BookingService bookingService;
+    private final BookingRepository bookingRepository;
 
-    public CustomerService(CustomerRepository customerRepository, BookingService bookingService) {
+    public CustomerService(CustomerRepository customerRepository, BookingRepository bookingRepository) {
         this.customerRepository = customerRepository;
-        this.bookingService = bookingService;
+        this.bookingRepository = bookingRepository;
     }
 
     public Customer getCustomerById(Long id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Customer with id " + id + " not found"))
+                .orElseThrow(() -> new NotFoundException("Customer with id " + id + " not found"));
     }
 
     public List<Customer> getAllCustomers(){

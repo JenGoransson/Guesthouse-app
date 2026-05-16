@@ -25,7 +25,7 @@ public class RoomService {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Room not found"));
     }
-    public boolean isRoomBoken(long roomId){
+    public boolean isRoomBooked(long roomId){
         Room room = getRoomById(roomId);
         return !room.getBookings().isEmpty();
     }
@@ -50,14 +50,4 @@ public class RoomService {
         room.setPricePerNight(updatedRoom.getPricePerNight());
         return roomRepository.save(room);
     }
-
-
-    /* TODO:
-    *   metod som kollar om ett rum är bokat - boolean?.
-    *   metod som hämtar alla lediga rum.
-    *   metod som hämtar alla bokningar för ett rum - bra för admin.
-    *   extra --> metod som skapar ett rum
-    *   extra --> metod som uppdaterar ett rum: typ pris, antal sängar etc.
-    *
-    * */
 }

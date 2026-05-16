@@ -20,7 +20,7 @@ import java.util.List;
 public class BookingService {
 
     private final BookingRepository bookingRepo;
-    private final RoomService roomService;
+    private final RoomService roomService; //Använda repo eller service...?
     private final CustomerService customerService;
 
     public BookingService(BookingRepository bookingRepo, RoomService roomService, CustomerService customerService) {
