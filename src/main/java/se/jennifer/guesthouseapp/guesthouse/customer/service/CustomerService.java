@@ -1,6 +1,8 @@
 package se.jennifer.guesthouseapp.guesthouse.customer.service;
 
 import org.springframework.stereotype.Service;
+import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
+import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
 import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
@@ -35,15 +37,51 @@ public class CustomerService {
         return customerRepository.save(newCustomer);
     }
 
-    /*TODO:
-    *  metod som uppdaterar kundens mail, får ej använda en email som redan är registrerad i systemet.
-    *  metod som uppdaterar kundens telefonnummer, får ej använda ett telenummer som redan finns i systemet.
-    *  metod som tar bort en kund OM hen inte har aktiva bokningar
-    *  metod som hömtar kund via ID
-    *  metod som kollar ifall en kund har aktiva bokningar
-    *  metod som hämtar kund via email
-    *  metod som hämtar alla bokningar för en kund
-    *
-    * */
+    public Customer updateEmail(Long customerId, String newEmail) {
+        Customer customer = getCustomerById(customerId);
 
+        boolean emailExists = customerRepository.existsByEmail(newEmail);
+        if (emailExists && !customer.getEmail().equals(newEmail)) {
+            throw new IllegalStateException(newEmail + " används redan!");
+        }
+
+        customer.setEmail(newEmail);
+        return customerRepository.save(customer);
+    }
+
+    public Customer updatePhone(Long customerId, String newPhone) {
+        Customer customer = getCustomerById(customerId);
+
+        boolean phoneExists = customerRepository.existsByPhone(newPhone);
+        if (phoneExists && !customer.getPhone().equals(newPhone)) {
+            throw new IllegalStateException(newPhone + " används redan!");
+        }
+
+        customer.setPhone(newPhone);
+        return customerRepository.save(customer);
+    }
+
+    public boolean hasActiveBookings(Long customerId) {
+        return bookingRepository.existsByCustomerIdAndStatus(customerId, BookingStatus.ACTIVE);
+    }
+
+    public void deleteCustomer(Long customerId) {
+        Customer customer = getCustomerById(customerId);
+
+        if (hasActiveBookings(customerId)) {
+            throw new IllegalStateException("Kunden har aktiva bokningar och kan därför inte bli raderad.");
+        }
+
+        customerRepository.delete(customer);
+    }
+
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.
+                findByEmail(email).orElseThrow(() -> new NotFoundException("Kund med " + email +" finns inte"));
+    }
+
+    public List<Booking> getCustomerBookings(Long customerId) {
+        getCustomerById(customerId);
+        return bookingRepository.findByCustomerId(customerId);
+    }
 }
