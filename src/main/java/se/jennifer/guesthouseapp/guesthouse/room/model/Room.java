@@ -17,6 +17,7 @@ public class Room {
     private Long id;
 
     @NotBlank(message = "Roomnumber cannot be empty")
+    @Column(unique = true)
     private String roomNumber;
 
     @Enumerated(EnumType.STRING)
@@ -30,8 +31,6 @@ public class Room {
     @Min(value=1, message = "Price per night needs to be greater than 0")
     private int pricePerNight;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private List<Booking> bookings = new ArrayList<>();
 
     protected Room() {
     }
@@ -59,10 +58,6 @@ public class Room {
     public int getPricePerNight(){
         return pricePerNight;
     }
-    public List<Booking> getBookings(){
-        return bookings;
-    }
-
 
     public void setId(Long id){ this.id = id; }
     public void setRoomNumber(String roomNumber){
@@ -76,9 +71,7 @@ public class Room {
     public void setPricePerNight(int pricePerNight){
         this.pricePerNight = pricePerNight;
     }
-    public void setBookings(List<Booking> bookings){
-        this.bookings = bookings;
-    }
+
 
 
 }
