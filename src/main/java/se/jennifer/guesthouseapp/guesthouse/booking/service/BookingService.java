@@ -1,5 +1,6 @@
 package se.jennifer.guesthouseapp.guesthouse.booking.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
@@ -46,7 +47,7 @@ public class BookingService {
         return bookingRepo.findByRoomId(roomId);
     }
 
-    //Kanske göra en transactional här..?
+    @Transactional
     public Booking createBooking(CreateBookingRequest request) {
 
         if(request.startDate().isAfter(request.endDate())){
@@ -70,6 +71,7 @@ public class BookingService {
         return bookingRepo.save(booking);
     }
 
+    @Transactional
     public Booking updateBooking(Long id, UpdateBookingRequest request) {
 
         Booking booking = getBookingById(id);
@@ -79,17 +81,19 @@ public class BookingService {
         }
 
         Room room = booking.getRoom();
+
         if(request.roomId() != null && !request.roomId().equals(booking.getRoom().getId())) {
             room = roomService.getRoomById(request.roomId());
         }
 
-        boolean overlaps = bookingRepo. existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+        boolean overlaps = bookingRepo. existsByRoomIdAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqualAndIdNot(
                 room.getId(),
                 BookingStatus.ACTIVE,
                 request.endDate(),
-                request.startDate()
+                request.startDate(),
+                booking.getId()
         );
-        if(overlaps && !room.getId().equals(booking.getRoom().getId())) {
+        if(overlaps) {
             throw new BadRequest("Room is already booked between this period");
         }
 
@@ -117,6 +121,7 @@ public class BookingService {
         return bookingRepo.existsByCustomerIdAndStatus(customerId, BookingStatus.ACTIVE);
     }
 
+    @Transactional
     public void cancelBooking(Long id){
         Booking booking = getBookingById(id);
 
@@ -138,7 +143,7 @@ public class BookingService {
     *    DONE - Skapa metod getBookingsForCustomer(customerId)
     *    DONE - Skapa metod getBookingsForRoom
     *    DONE - Skapa metod som ändrar en bokning!
-    *
+    *    Extra --> skapa metod validateDates för läsbarheten
     * */
 
 }
