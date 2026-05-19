@@ -6,7 +6,9 @@ import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.UpdateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
+import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,6 +39,18 @@ public class BookingController {
     @GetMapping("/room/{roomId}")
     public List<Booking>getBookingsForRoom(@PathVariable Long roomId){
         return bookingService.getBookingsForRoom(roomId);
+    }
+
+    @GetMapping("/available")
+    public List<Room> getAvailableRoomsByDate(@RequestParam LocalDate date) {
+        return bookingService.getAvailableRoomsByDate(date);
+    }
+
+    @GetMapping("/available-range")
+    public List<Room> getAvailableRoomsByInterval(
+            @RequestParam LocalDate start,
+            @RequestParam LocalDate end) {
+        return bookingService.getAvailableRoomsByInterval(start, end);
     }
 
     @PostMapping
