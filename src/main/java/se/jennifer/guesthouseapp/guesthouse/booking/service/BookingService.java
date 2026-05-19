@@ -113,6 +113,19 @@ public class BookingService {
         );
     }
 
+    public List<Room> getAvailableRoomsByDate(LocalDate date) {
+        return roomService.getAllRooms().stream()
+                .filter(room -> !isRoomBooked(room.getId(), date, date))
+                .toList();
+    }
+
+    public List<Room> getAvailableRoomsByInterval(LocalDate start, LocalDate end) {
+        return roomService.getAllRooms().stream()
+                .filter(room -> !isRoomBooked(room.getId(), start, end))
+                .toList();
+    }
+
+
     public boolean roomHasActiveBookings(Long roomId) {
         return bookingRepo.existsByRoomIdAndStatus(roomId, BookingStatus.ACTIVE);
     }

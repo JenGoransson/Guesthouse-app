@@ -16,11 +16,9 @@ import java.util.List;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final BookingService bookingService;
 
-    public RoomService(RoomRepository roomRepository, BookingService bookingService) {
+    public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
-        this.bookingService = bookingService;
     }
 
     public List<Room> getAllRooms(){
@@ -67,13 +65,14 @@ public class RoomService {
             }
         }
     }
+//  RoomService ska inte veta ngt som bokningar.
 
-    public List<Room> getAvailableRoomsByDate(LocalDate date){
-        return roomRepository.findAll().stream().filter(room -> !bookingService.isRoomBooked(room.getId(), date, date)).toList();
-    }
-
-    public List<Room> getAvailableRoomsByInterval(LocalDate start, LocalDate end){
-        return roomRepository.findAll().stream().filter(room -> !bookingService.isRoomBooked(room.getId(), start, end)).toList();
-    }
+//    public List<Room> getAvailableRoomsByDate(LocalDate date){
+//        return roomRepository.findAll().stream().filter(room -> !bookingService.isRoomBooked(room.getId(), date, date)).toList();
+//    }
+//
+//    public List<Room> getAvailableRoomsByInterval(LocalDate start, LocalDate end){
+//        return roomRepository.findAll().stream().filter(room -> !bookingService.isRoomBooked(room.getId(), start, end)).toList();
+//    }
 
 }

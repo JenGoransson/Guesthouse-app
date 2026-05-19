@@ -28,15 +28,6 @@ public class RoomController {
         return roomService.getRoomById(id);
     }
 
-    @GetMapping("/available")
-    public List<Room> getAvailableRoomsByDate(@RequestParam LocalDate date){
-        return roomService.getAvailableRoomsByDate(date);
-    }
-
-    @GetMapping("/available-range")
-    public List<Room> getAvailableRoomsByInterval(@RequestParam LocalDate start, @RequestParam LocalDate end){
-        return roomService.getAvailableRoomsByInterval(start, end);
-    }
 
     @PostMapping
     public Room createRoom(@RequestBody Room room){
