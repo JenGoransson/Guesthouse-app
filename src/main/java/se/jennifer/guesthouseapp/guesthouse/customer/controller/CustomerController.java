@@ -3,6 +3,7 @@ package se.jennifer.guesthouseapp.guesthouse.customer.controller;
 import org.springframework.web.bind.annotation.*;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
+import se.jennifer.guesthouseapp.guesthouse.customer.model.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
 
@@ -29,10 +30,16 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public Customer createCustomer(@RequestBody CreateCustomerRequest request){
         return customerService.createCustomer(request);
     }
+
+    @PostMapping("/login")
+    public Customer login(@RequestBody LoginRequest request){
+        return customerService.login(request);
+    }
+
 
     @PatchMapping("/{id}/email")
     public Customer updateEmail(@PathVariable Long id, @RequestParam String email){
@@ -54,8 +61,4 @@ public class CustomerController {
         return customerService.getCustomerByEmail(email);
     }
 
-    @GetMapping("/{id}/bookings")
-    public List<Booking> getCustomerBookings(@PathVariable Long id){
-        return customerService.getCustomerBookings(id);
-    }
 }

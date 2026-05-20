@@ -12,7 +12,7 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
 
@@ -28,16 +28,20 @@ public class Customer {
 
     private String phone;
 
+    @NotBlank(message="Password cannot be empty")
+    private String password;
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
     public Customer() {
     }
 
-    public Customer(String firstname, String lastname, String email, String phone) {
+    public Customer(String firstname, String lastname, String email, String password, String phone) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.password=password;
         this.phone = phone;
     }
 
@@ -63,6 +67,14 @@ public class Customer {
 
     public void setLastname(@NotBlank(message = "Lastname cannot be empty") String lastname) {
         this.lastname = lastname;
+    }
+
+    public @NotBlank(message = "Password cannot be empty") String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotBlank(message = "Password cannot be empty") String password) {
+        this.password = password;
     }
 
     public @NotBlank(message = "Email cannot be empty") @Email(message = "Email must be a valid email address") String getEmail() {

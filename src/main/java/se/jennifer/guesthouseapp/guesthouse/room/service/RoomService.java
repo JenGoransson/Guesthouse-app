@@ -51,7 +51,7 @@ public class RoomService {
     }
 
     private void validateRoom(Room room) {
-        if (room.getType() == RoomType.ENKEL){
+        if (room.getType() == RoomType.SINGLE){
             if (room.isExtraBedAllowed()){
                 throw new RuntimeException("Single room cannot have extra beds");
             }
@@ -59,7 +59,7 @@ public class RoomService {
                 throw new RuntimeException("Single rooms must have exactly 1 bed");
             }
         }
-        if (room.getType() == RoomType.DUBBEL){
+        if (room.getType() == RoomType.DOUBLE){
             if (room.getBeds() != 2){
                 throw new RuntimeException("Double rooms must have exactly 2 beds");
             }
