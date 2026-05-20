@@ -1,5 +1,6 @@
 package se.jennifer.guesthouseapp.guesthouse.customer.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
@@ -7,7 +8,9 @@ import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository
 import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
+import se.jennifer.guesthouseapp.guesthouse.customer.model.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.repository.CustomerRepository;
+import se.jennifer.guesthouseapp.guesthouse.error.BadRequest;
 import se.jennifer.guesthouseapp.guesthouse.error.NotFoundException;
 
 import java.util.List;
@@ -17,10 +20,12 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(CustomerRepository customerRepository, BookingRepository bookingRepository) {
+    public CustomerService(CustomerRepository customerRepository, BookingRepository bookingRepository, PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
         this.bookingRepository = bookingRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Customer getCustomerById(Long id) {
@@ -33,9 +38,29 @@ public class CustomerService {
     }
 
     public Customer createCustomer(CreateCustomerRequest request){
-        Customer newCustomer = new Customer(request.firstname(), request.lastname(), request.email(), request.phone());
+        String hashedPassword = passwordEncoder.encode(request.password());
+
+        Customer newCustomer = new Customer(
+                request.firstname(),
+                request.lastname(),
+                request.email(),
+                hashedPassword,
+                request.phone());
         return customerRepository.save(newCustomer);
     }
+
+    public Customer login(LoginRequest request) {
+
+        Customer customer = customerRepository.findByEmail(request.email())
+                .orElseThrow(() -> new NotFoundException("No customer with that email"));
+
+        if (!passwordEncoder.matches(request.password(), customer.getPassword())) {
+            throw new BadRequest("Incorrect password");
+        }
+
+        return customer;
+    }
+
 
     public Customer updateEmail(Long customerId, String newEmail){
         Customer customer = getCustomerById(customerId);
