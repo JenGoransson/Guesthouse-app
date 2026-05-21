@@ -22,6 +22,9 @@ if (loginForm) {
         });
 
         if (response.ok) {
+            const customer = await response.json();
+            localStorage.setItem("customer", JSON.stringify(customer));
+
             window.location.href = "dashboard.html";
         } else {
             const errorText = await response.text();
