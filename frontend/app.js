@@ -24,7 +24,11 @@ if (loginForm) {
         if (response.ok) {
             window.location.href = "dashboard.html";
         } else {
-            document.getElementById("errorMessage").style.display = "block";
+            const errorText = await response.text();
+            const errorMessage = document.getElementById("errorMessage");
+
+            errorMessage.textContent = errorText;
+            errorMessage.style.display = "block";
         }
     });
 }
