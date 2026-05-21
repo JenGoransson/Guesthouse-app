@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
+<body class="dashboard-body">
+   <div class="container">
+      <h1 class="dashboard-title">Welcome, <span id="customerName"></span></h1>
+    
+      <div class="dashboard-buttons">
+        <button onclick="location.href='my-bookings.html'">My bookings</button>
+        <button onclick="location.href='newbooking.html'">New booking</button>
+        <button onclick="location.href='myi-nfo.html'">My information</button>
+      </div>
+   </div>
 </body>
+
+<script src="dashboard.js" defer></script>
+
 </html>
+

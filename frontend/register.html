@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="login-body">
+<body class="register-body">
 
 <h1 class="welcome-title">The Guesthouse</h1>
 
-<div class="login-container">
+<div class="container">
     <h2>Create your account</h2>
     
     <form id="registerForm">
@@ -34,6 +35,11 @@
         <p id="errorMessage" class="error" style="display:none;">
             Email already exists
         </p>
+        
+        <p id="successMessage" style="display:none; color: green;">
+            User created successfully!
+        </p>
+    
     </form>
     
     <p class="switch-link">

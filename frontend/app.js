@@ -15,16 +15,23 @@ if (loginForm) {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        const response = await fetch("http://localhost:8080/login", {
+        const response = await fetch("http://localhost:8080/customers/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
         });
 
         if (response.ok) {
+            const customer = await response.json();
+            localStorage.setItem("customer", JSON.stringify(customer));
+
             window.location.href = "dashboard.html";
         } else {
-            document.getElementById("errorMessage").style.display = "block";
+            const errorText = await response.text();
+            const errorMessage = document.getElementById("errorMessage");
+
+            errorMessage.textContent = errorText;
+            errorMessage.style.display = "block";
         }
     });
 }
@@ -48,10 +55,25 @@ if (registerForm) {
             body: JSON.stringify({ firstname, lastname, email, phone, password })
         });
 
+        const errorMessage= document.getElementById("errorMessage");
+        const successMessage = document.getElementById("successMessage");
+
+        // Rensa gamla meddelanden
+        errorMessage.style.display = "none";
+        successMessage.style.display = "none";
+
         if (response.ok) {
-            window.location.href = "login.html";
+            successMessage.innerText = "User created successfully!";
+            successMessage.style.display = "block";
+
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 4000);
+
         } else {
-            document.getElementById("errorMessage").style.display = "block";
+            const text = await response.text();
+            errorMessage.innerText = text;
+            errorMessage.style.display = "block";
         }
     });
 }

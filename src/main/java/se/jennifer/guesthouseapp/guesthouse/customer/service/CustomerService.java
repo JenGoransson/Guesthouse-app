@@ -1,5 +1,6 @@
 package se.jennifer.guesthouseapp.guesthouse.customer.service;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
@@ -46,7 +47,12 @@ public class CustomerService {
                 request.email(),
                 hashedPassword,
                 request.phone());
-        return customerRepository.save(newCustomer);
+        try {
+            return customerRepository.save(newCustomer);
+
+    } catch (DataIntegrityViolationException e) {
+        throw new BadRequest("Email already exists");
+        }
     }
 
     public Customer login(LoginRequest request) {
