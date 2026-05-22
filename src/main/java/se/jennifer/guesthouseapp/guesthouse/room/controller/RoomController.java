@@ -1,11 +1,9 @@
 package se.jennifer.guesthouseapp.guesthouse.room.controller;
 
 import org.springframework.web.bind.annotation.*;
-import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
 import se.jennifer.guesthouseapp.guesthouse.room.service.RoomService;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
