@@ -5,7 +5,7 @@ document.getElementById("date-form").addEventListener("submit", async function(e
     const startDate = document.getElementById("startDate").value;
     const endDate = document.getElementById("endDate").value;
 
-    const response = await fetch(`/api/rooms/available?start=${startDate}&end=${endDate}`);
+    const response = await fetch(`/bookings/available-range?start=${startDate}&end=${endDate}`);
     const rooms = await response.json();
 
     const roomList = document.getElementById("available-rooms");
@@ -16,8 +16,8 @@ document.getElementById("date-form").addEventListener("submit", async function(e
         label.classList.add("room-ooption");
 
         label.innerHTML= `
-        <input type="radio" name="roomId" value="${room.id}" data-type="${room.type}">
-            Room ${room.number} – ${room.type} 
+        <input type="radio" name="roomId" value="${room.id}" data-type="${room.roomType}">
+            Room ${room.roomNumber} – ${room.roomType}
             `;
         roomList.appendChild(label);
     });
@@ -39,4 +39,37 @@ document.addEventListener("change", function(e) {
         document.getElementById("confirm-form").classList.remove("hidden");
     }
 });
+
+//Bekräfta bokning
+document.getElementById("confirm-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const selectedRoom = document.querySelector("input[name='roomId']:checked");
+    const roomId = selectedRoom.value;
+
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    const customerId = localStorage.getItem("customerId");
+
+    const bookingData = {
+        roomId,
+        customerId,
+        startDate,
+        endDate
+    };
+
+    const response = await fetch("/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData)
+    });
+
+    if (response.ok) {
+        document.getElementById("success-message").classList.remove("hidden");
+    } else {
+        alert("Something went wrong with your booking.");
+    }
+});
+
 
