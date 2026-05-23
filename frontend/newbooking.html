@@ -6,21 +6,21 @@
     <title>New booking</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="new-booking-body">
    <div class="container">
        <h1 class="dashboard-title">Create a new booking</h1>
        
        <form id="date-form" class="booking-form">
            <label>Start date</label>
-           <input type="date" name="startDate">
+           <input type="date" id="startDate" required>
            <label>End date</label>
-           <input type="date" name="endDate">
+           <input type="date" id="endDate" required>
            
            <button type="submit">Check availability</button>
        </form>
        
-       <div id="available-rooms" class="room-list">
-       
+       <div id="available-rooms" class="room-list hidden">
+           <h3>Available rooms</h3>
        </div>
        
        <div id="extra-bed-section" class="extra-bed hidden">
@@ -30,17 +30,17 @@
            </label>
        </div>
        
-       <div class="confirm section">
+       <form id="confirm-form" class="confirm-section hidden">
            <label>Email</label>
-           <input type="email" name="email">
+           <input type="email" id="confirmEmail" required>
            
            <label>Password</label>
-           <input type="password" name="password">
+           <input type="password" id="password" required>
            
            <button type="submit" class="confirm-btn">Confirm booking</button>
-       </div>
+       </form>
        
-       <div class="success message">
+       <div id="success-message" class="success-message hidden">
            Thank you for your booking!
        </div>
        
