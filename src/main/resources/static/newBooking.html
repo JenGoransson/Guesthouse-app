@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="new-booking-body">
+   <div class="container">
+       <h1 class="dashboard-title">Create a new booking</h1>
+       
+       <form id="date-form" class="booking-form">
+           <label>Start date</label>
+           <input type="date" id="startDate" required>
+           <label>End date</label>
+           <input type="date" id="endDate" required>
+           
+           <button type="submit">Check availability</button>
+       </form>
+       
+       <div id="available-rooms" class="room-list hidden">
+           <h3>Available rooms</h3>
+       </div>
+       
+       <div id="extra-bed-section" class="extra-bed hidden">
+           <label>
+               <input type="checkbox" name="extraBed">
+               Add extra bed
+           </label>
+       </div>
+       
+       <form id="confirm-form" class="confirm-section hidden">
+           <label>Email</label>
+           <input type="email" id="confirmEmail" required>
+           
+           <label>Password</label>
+           <input type="password" id="password" required>
+           
+           <button type="submit" class="confirm-btn">Confirm booking</button>
+       </form>
+       
+       <div id="success-message" class="success-message hidden">
+           Thank you for your booking!
+       </div>
+       
+   </div>
+   <script src="newBooking.js"></script>
+</body>
+</html>
