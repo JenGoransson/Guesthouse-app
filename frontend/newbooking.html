@@ -2,9 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New booking</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+   <div class="container">
+       <h1 class="dashboard-title">Create a new booking</h1>
+       
+       <form id="date-form" class="booking-form">
+           <label>Start date</label>
+           <input type="date" name="startDate">
+           <label>End date</label>
+           <input type="date" name="endDate">
+           
+           <button type="submit">Check availability</button>
+       </form>
+       
+       <div id="available-rooms" class="room-list">
+       
+       </div>
+       
+       <div id="extra-bed-section" class="extra-bed hidden">
+           <label>
+               <input type="checkbox" name="extraBed">
+               Add extra bed
+           </label>
+       </div>
+       
+       <div class="confirm section">
+           <label>Email</label>
+           <input type="email" name="email">
+           
+           <label>Password</label>
+           <input type="password" name="password">
+           
+           <button type="submit" class="confirm-btn">Confirm booking</button>
+       </div>
+       
+       <div class="success message">
+           Thank you for your booking!
+       </div>
+       
+   </div>
 
 </body>
 </html>
