@@ -1,4 +1,7 @@
 //Börjar med att kolla tillgänglighet
+console.log("JS LOADED!");
+
+
 document.getElementById("date-form").addEventListener("submit", async function(e) {
     e.preventDefault();
 
@@ -9,16 +12,17 @@ document.getElementById("date-form").addEventListener("submit", async function(e
     const rooms = await response.json();
 
     const roomList = document.getElementById("available-rooms");
-    roomList.innerHTML = <h3>Available rooms</h3>;
+    roomList.innerHTML = "<h3>Available rooms</h3>";
 
     rooms.forEach(room=> {
         const label = document.createElement("label");
-        label.classList.add("room-ooption");
+        label.classList.add("room-option");
 
-        label.innerHTML= `
-        <input type="radio" name="roomId" value="${room.id}" data-type="${room.roomType}">
-            Room ${room.roomNumber} – ${room.roomType}
-            `;
+        label.innerHTML = `
+<input type="radio" name="roomId" value="${room.id}" data-type="${room.roomType}">
+Room ${room.roomNumber} – ${room.roomType}
+`;
+
         roomList.appendChild(label);
     });
     roomList.classList.remove("hidden");
