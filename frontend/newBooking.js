@@ -1,1 +1,42 @@
 //Börjar med att kolla tillgänglighet
+document.getElementById("date-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    const response = await fetch(`/api/rooms/available?start=${startDate}&end=${endDate}`);
+    const rooms = await response.json();
+
+    const roomList = document.getElementById("available-rooms");
+    roomList.innerHTML = <h3>Available rooms</h3>;
+
+    rooms.forEach(room=> {
+        const label = document.createElement("label");
+        label.classList.add("room-ooption");
+
+        label.innerHTML= `
+        <input type="radio" name="roomId" value="${room.id}" data-type="${room.type}">
+            Room ${room.number} – ${room.type} 
+            `;
+        roomList.appendChild(label);
+    });
+    roomList.classList.remove("hidden");
+    });
+
+//Visa/dölj extrasäng när man väljer rum.
+document.addEventListener("change", function(e) {
+    if(e.target.name=="roomId") {
+        const roomType = e.target.getAttribute("data-type");
+        const extraBedSection = document.getElementById("extra-bed-section");
+
+        if(roomType.toLowerCase()==="double") {
+            extraBedSection.classList.remove("hidden");
+        } else {
+            extraBedSection.classList.add("hidden");
+        }
+
+        document.getElementById("confirm-form").classList.remove("hidden");
+    }
+});
+
