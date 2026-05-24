@@ -3,11 +3,8 @@ package se.jennifer.guesthouseapp.guesthouse.room.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.room.RoomType;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Room {
