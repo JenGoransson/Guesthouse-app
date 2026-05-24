@@ -24,6 +24,7 @@ if (loginForm) {
         if (response.ok) {
             const customer = await response.json();
             localStorage.setItem("customer", JSON.stringify(customer));
+            localStorage.setItem("customerId", customer.id);
 
             window.location.href = "dashboard.html";
         } else {

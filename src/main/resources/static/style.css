@@ -258,4 +258,14 @@ body.dashboard-body {
     display: none;
 }
 
+#confirm-form.hidden {
+    display: none;
+}
+
+#confirm-form:not(.hidden) {
+    display: flex;
+    gap: 12px;
+}
+
+
 
