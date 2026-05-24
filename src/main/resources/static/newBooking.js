@@ -1,6 +1,3 @@
-//Börjar med att kolla tillgänglighet
-console.log("JS LOADED!");
-
 
 document.getElementById("date-form").addEventListener("submit", async function(e) {
     e.preventDefault();
@@ -75,5 +72,23 @@ document.getElementById("confirm-form").addEventListener("submit", async functio
         alert("Something went wrong with your booking.");
     }
 });
+
+document.getElementById("back-to-dashboard").addEventListener("click", function() {
+    window.location.href = "dashboard.html";
+});
+
+// Cancel booking
+document.getElementById("cancel-booking").addEventListener("click", function () {
+    // Göm confirm-form
+    document.getElementById("confirm-form").classList.add("hidden");
+
+    // Göm extrasäng
+    document.getElementById("extra-bed-section").classList.add("hidden");
+
+    // Avmarkera valt rum
+    const selected = document.querySelector("input[name='roomId']:checked");
+    if (selected) selected.checked = false;
+});
+
 
 

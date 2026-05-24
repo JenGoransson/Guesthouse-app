@@ -30,20 +30,17 @@
            </label>
        </div>
        
-       <form id="confirm-form" class="confirm-section hidden">
-           <label>Email</label>
-           <input type="email" id="confirmEmail" required>
-           
-           <label>Password</label>
-           <input type="password" id="password" required>
-           
-           <button type="submit" class="confirm-btn">Confirm booking</button>
+       <form id="confirm-form" class="hidden">
+           <button type="submit" class="btn btn-brown">Confirm booking</button>
+           <button type="button" id="cancel-booking" class="btn btn-secondary">Cancel</button>
        </form>
        
-       <div id="success-message" class="success-message hidden">
-           Thank you for your booking!
-       </div>
        
+       <div id="success-message" class="hidden">
+           <p>Thank you for your booking!</p>
+           <button id="back-to-dashboard">Back to dashboard</button>
+       </div>
+   
    </div>
    <script src="newBooking.js"></script>
 </body>
