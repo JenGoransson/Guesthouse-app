@@ -19,8 +19,8 @@ document.getElementById("date-form").addEventListener("submit", async function(e
         label.classList.add("room-option");
 
         label.innerHTML = `
-<input type="radio" name="roomId" value="${room.id}" data-type="${room.roomType}">
-Room ${room.roomNumber} – ${room.roomType}
+<input type="radio" name="roomId" value="${room.id}" data-type="${room.type}">
+Room ${room.roomNumber} – ${room.type}
 `;
 
         roomList.appendChild(label);
@@ -34,7 +34,7 @@ document.addEventListener("change", function(e) {
         const roomType = e.target.getAttribute("data-type");
         const extraBedSection = document.getElementById("extra-bed-section");
 
-        if(roomType.toLowerCase()==="double") {
+        if(roomType ==="DOUBLE") {
             extraBedSection.classList.remove("hidden");
         } else {
             extraBedSection.classList.add("hidden");
