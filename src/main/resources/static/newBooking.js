@@ -30,6 +30,8 @@ document.getElementById("date-form").addEventListener("submit", async function(e
     const response = await fetch(`/bookings/available-range?start=${startDateValue}&end=${endDateValue}`);
     const rooms = await response.json();
 
+    rooms.sort((a, b) => a.pricePerNight - b.pricePerNight);
+
     const roomList = document.getElementById("available-rooms");
     roomList.innerHTML = "<h3>Available rooms</h3>";
 
@@ -45,7 +47,7 @@ Room ${room.roomNumber} – ${room.type} - ${room.pricePerNight} SEK/night
         roomList.appendChild(label);
     });
     roomList.classList.remove("hidden");
-    });
+});
 
 //Visa/dölj extrasäng när man väljer rum.
 document.addEventListener("change", function(e) {
