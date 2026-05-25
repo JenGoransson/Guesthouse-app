@@ -2,10 +2,32 @@
 document.getElementById("date-form").addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
+    const errorBox = document.getElementById("date-error");
+    errorBox.textContent = ""; //rensa tidigare fel
 
-    const response = await fetch(`/bookings/available-range?start=${startDate}&end=${endDate}`);
+    const startDateValue = document.getElementById("startDate").value;
+    const endDateValue = document.getElementById("endDate").value;
+
+    if (!startDateValue || !endDateValue) {
+        errorBox.textContent = "Please select both dates.";
+        return;
+    }
+    const startDate = new Date(startDateValue);
+    const endDate = new Date(endDateValue);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    if(startDate < today) {
+        errorBox.textContent="Start date cannot be in the past!";
+        return;
+    }
+
+    if (endDate <= startDate) {
+        errorBox.textContent="End date must be after start date!";
+        return;
+    }
+
+    const response = await fetch(`/bookings/available-range?start=${startDateValue}&end=${endDateValue}`);
     const rooms = await response.json();
 
     const roomList = document.getElementById("available-rooms");
@@ -16,8 +38,8 @@ document.getElementById("date-form").addEventListener("submit", async function(e
         label.classList.add("room-option");
 
         label.innerHTML = `
-<input type="radio" name="roomId" value="${room.id}" data-type="${room.type}">
-Room ${room.roomNumber} – ${room.type}
+<input type="radio" name="roomId" value="${room.id}" data-type="${room.type}" data-price="${room.pricePerNight}">
+Room ${room.roomNumber} – ${room.type} - ${room.pricePerNight} SEK/night
 `;
 
         roomList.appendChild(label);
