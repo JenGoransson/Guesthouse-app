@@ -1,6 +1,5 @@
-/* =========================================
-   GLOBAL SETTINGS
-========================================= */
+
+/*GLOBAL SETTINGS*/
 
 body {
     margin: 0;
@@ -17,8 +16,7 @@ body {
     align-items: center;
 }
 
-/* =========================================
-   PAGE LAYOUT VARIANTS
+/*  PAGE LAYOUT VARIANTS
 ========================================= */
 
 /* Login & Register: container ska ligga lite längre ner */
@@ -31,8 +29,7 @@ body.dashboard-body {
     justify-content: center;
 }
 
-/* =========================================
-   TITLES
+/* TITLES
 ========================================= */
 
 /* Stor vit titel (login & register) */
@@ -57,8 +54,7 @@ body.dashboard-body {
     margin-bottom: 20px;
 }
 
-/* =========================================
-   UNIVERSAL CONTAINER (ALLA SIDOR)
+/* UNIVERSAL CONTAINER (ALLA SIDOR)
 ========================================= */
 
 .container {
@@ -82,8 +78,7 @@ body.dashboard-body {
     font-size: 28px;
 }
 
-/* =========================================
-   INPUTS
+/* INPUTS
 ========================================= */
 
 .container input {
@@ -102,8 +97,7 @@ body.dashboard-body {
     box-shadow: 0 0 5px rgba(50, 17, 3, 0.3);
 }
 
-/* =========================================
-   BUTTONS
+/* BUTTONS
 ========================================= */
 
 .container button,
@@ -124,15 +118,13 @@ body.dashboard-body {
     background: rgba(50, 17, 3, 0.9);
 }
 
-/* Dashboard-knappar layout */
 .dashboard-buttons {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* =========================================
-   ERROR MESSAGE
+/* ERROR MESSAGE
 ========================================= */
 
 .error {
@@ -142,8 +134,7 @@ body.dashboard-body {
     font-size: 14px;
 }
 
-/* =========================================
-   SWITCH LINK
+/* SWITCH LINK
 ========================================= */
 
 .switch-link {
@@ -163,8 +154,7 @@ body.dashboard-body {
 }
 
 
-/* =========================================
-   RESPONSIVE DESIGN
+/* RESPONSIVE DESIGN
 ========================================= */
 
 @media (max-width: 768px) {
@@ -192,8 +182,7 @@ body.dashboard-body {
         margin-top: 15px;
     }
 }
-/* =========================================
-   NEW BOOKING PAGE
+/* NEW BOOKING PAGE
 ========================================= */
 
 /* Form layout */
@@ -202,6 +191,15 @@ body.dashboard-body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+}
+
+/* Error message under date fields */
+.date-error {
+    color: #b30000;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    text-align: left;
 }
 
 /* Room list container */
