@@ -3,7 +3,7 @@ document.getElementById("date-form").addEventListener("submit", async function(e
     e.preventDefault();
 
     const errorBox = document.getElementById("date-error");
-    errorBox.textContent = ""; //rensa tidigare fel
+    errorBox.textContent = "";
 
     const startDateValue = document.getElementById("startDate").value;
     const endDateValue = document.getElementById("endDate").value;
@@ -65,23 +65,24 @@ document.addEventListener("change", function(e) {
     }
 });
 
-//Bekräfta bokning
+// Bekräfta bokning
 document.getElementById("confirm-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const selectedRoom = document.querySelector("input[name='roomId']:checked");
-    const roomId = selectedRoom.value;
+    if (!selectedRoom) {
+        alert("Please select a room.");
+        return;
+    }
 
-    const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
-
-    const customerId = localStorage.getItem("customerId");
+    const customer = JSON.parse(localStorage.getItem("customer"));
+    const customerId = customer.id;
 
     const bookingData = {
-        roomId,
+        roomId: selectedRoom.value,
         customerId,
-        startDate,
-        endDate
+        startDate: document.getElementById("startDate").value,
+        endDate: document.getElementById("endDate").value
     };
 
     const response = await fetch("/bookings", {
@@ -97,12 +98,14 @@ document.getElementById("confirm-form").addEventListener("submit", async functio
     }
 });
 
+
 document.getElementById("back-to-dashboard").addEventListener("click", function() {
     window.location.href = "dashboard.html";
 });
 
-// Cancel booking
+// Ta bort bokning
 document.getElementById("cancel-booking").addEventListener("click", function () {
+
     // Göm confirm-form
     document.getElementById("confirm-form").classList.add("hidden");
 
