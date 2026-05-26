@@ -1,4 +1,4 @@
-package se.jennifer.guesthouseapp.guesthouse.room.service;
+package se.jennifer.guesthouseapp;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,8 @@ import org.mockito.Mockito;
 import se.jennifer.guesthouseapp.guesthouse.room.RoomType;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
 import se.jennifer.guesthouseapp.guesthouse.room.repository.RoomRepository;
+import se.jennifer.guesthouseapp.guesthouse.room.service.RoomService;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;

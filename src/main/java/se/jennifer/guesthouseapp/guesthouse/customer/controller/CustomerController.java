@@ -65,4 +65,5 @@ public class CustomerController {
     public void changePassword(@PathVariable Long id, @RequestBody ChangePasswordRequest request){
         customerService.changePassword(id,request);
     }
+
 }

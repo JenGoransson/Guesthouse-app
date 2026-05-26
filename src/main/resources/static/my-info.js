@@ -33,9 +33,9 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
     });
 
-    const successMessage = document.getElementById("successMessage");
+    const successMessage = document.getElementById("success-message");
 
-    const errorMessage = document.getElementById("errorMessage");
+    const errorMessage = document.getElementById("error-message");
 
     successMessage.style.display = "none";
     errorMessage.style.display = "none";
@@ -56,8 +56,8 @@ document.getElementById("changeBtn").addEventListener("click", async () => {
     const currentPassword = document.getElementById("current_password").value;
     const newPassword = document.getElementById("new_password").value;
     const confirmPassword = document.getElementById("confirm_password").value;
-    const successMessage = document.getElementById("successMessage");
-    const errorMessage = document.getElementById("errorMessage");
+    const successMessage = document.getElementById("success-message");
+    const errorMessage = document.getElementById("error-message");
     successMessage.style.display = "none";
     errorMessage.style.display = "none";
     if (newPassword !== confirmPassword) {
@@ -81,10 +81,17 @@ document.getElementById("changeBtn").addEventListener("click", async () => {
         document.getElementById("confirm_password").value = "";
     } else {
         const text = await response.text();
-        errorMessage.innerText = text;
+
+        if (text.includes("Incorrect password")) {
+            errorMessage.innerText = "Current password is incorrect!.";
+        } else {
+            errorMessage.innerText = text;
+        }
+
         errorMessage.style.display = "block";
     }
 });
+
 // LOGGA UT
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("customer");

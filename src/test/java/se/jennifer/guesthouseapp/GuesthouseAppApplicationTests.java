@@ -8,9 +8,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.CreateCustomerRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.repository.CustomerRepository;
 import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
 
