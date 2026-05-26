@@ -40,7 +40,12 @@ public class BookingService {
     }
 
     public List<Booking> getBookingsForCustomer(Long customerId) {
-        return bookingRepo.findByCustomerId(customerId);
+        LocalDate today = LocalDate.now();
+        return bookingRepo.findByCustomerIdAndStartDateAfterAndStatus(
+                customerId,
+                today.minusDays(1),
+                BookingStatus.ACTIVE
+        );
     }
 
     public List<Booking> getBookingsForRoom(Long roomId) {
@@ -145,18 +150,5 @@ public class BookingService {
         booking.setStatus(BookingStatus.CANCELLED);
         bookingRepo.save(booking);
     }
-
-
-    /*  TODO:
-    *    DONE - Skapa metod getBookingById()
-    *    DONE - Skapa metod createBooking() --> kolla om kunden som gör bokningen faktiskt finns + om rummet är ledigt. Transactional kan vara bra här!
-    *    DONE - Skapa metod isRoomBooked(roomId, date), denna metod ska RoomService anropa.
-    *    DONE - Skapa metod customerHasActiveBookings(customerId)
-    *    DONE - Skapa metod cancelBooking
-    *    DONE - Skapa metod getBookingsForCustomer(customerId)
-    *    DONE - Skapa metod getBookingsForRoom
-    *    DONE - Skapa metod som ändrar en bokning!
-    *    Extra --> skapa metod validateDates för läsbarheten
-    * */
 
 }

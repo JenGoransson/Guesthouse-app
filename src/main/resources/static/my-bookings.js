@@ -12,12 +12,16 @@ async function loadBookings() {
     bookingsList.innerHTML = "";
 
     const res = await fetch(`http://localhost:8080/bookings/customer/${customerId}`);
-    const bookings = await res.json();
+    let bookings = await res.json();
+
+    const today = new Date().toISOString().split("T")[0];
+    bookings = bookings.filter(b => b.startDate >= today);
 
     if (!Array.isArray(bookings) || bookings.length === 0) {
         noBookingsMessage.style.display = "block";
         return;
     }
+
     bookings.forEach(b => {
         const div = document.createElement("div");
         div.classList.add("booking-item");
@@ -32,6 +36,7 @@ async function loadBookings() {
         bookingsList.appendChild(div);
     });
 }
+
 async function deleteBooking(id){
     if (!confirm("Are you sure you want to delete this booking?")) return;
     await  fetch(`http://localhost:8080/bookings/${id}`,{
