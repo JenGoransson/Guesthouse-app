@@ -24,6 +24,7 @@ public class Customer {
 
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Email must be a valid email address")
+    @Column(unique = true)
     private String email;
 
     private String phone;

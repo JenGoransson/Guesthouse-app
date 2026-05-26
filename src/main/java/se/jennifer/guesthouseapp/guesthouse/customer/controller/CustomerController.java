@@ -1,11 +1,11 @@
 package se.jennifer.guesthouseapp.guesthouse.customer.controller;
 
 import org.springframework.web.bind.annotation.*;
-import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.ChangePasswordRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.LoginRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.CreateCustomerRequest;
 
 import java.util.List;
 
@@ -61,4 +61,8 @@ public class CustomerController {
         return customerService.getCustomerByEmail(email);
     }
 
+    @PutMapping("/{id}/change-password")
+    public void changePassword(@PathVariable Long id, @RequestBody ChangePasswordRequest request){
+        customerService.changePassword(id,request);
+    }
 }
