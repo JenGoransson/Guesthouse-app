@@ -39,7 +39,7 @@ public class RoomServiceTest {
     @Test
     void createRoom_throwsExceptionWhenRoomNumberExists(){
         Room room = new Room("111",RoomType.SINGLE,true,1,500);
-
+        when(roomRepository.existsByRoomNumber("111")).thenReturn(true);
         assertThrows(RuntimeException.class,() -> roomService.createRoom(room));
     }
     @Test
@@ -50,7 +50,9 @@ public class RoomServiceTest {
     }
     @Test
     void validateRoom_doubleRoomMustHaveTwoBeds(){
+
         Room room = new Room("222",RoomType.DOUBLE, false,1 ,800);
+        assertThrows(RuntimeException.class, () -> roomService.createRoom(room));
     }
 
     @Test

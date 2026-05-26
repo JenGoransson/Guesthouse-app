@@ -1,6 +1,7 @@
 package se.jennifer.guesthouseapp.guesthouse.room.service;
 
 import org.springframework.stereotype.Service;
+import se.jennifer.guesthouseapp.guesthouse.error.BadRequest;
 import se.jennifer.guesthouseapp.guesthouse.error.NotFoundException;
 import se.jennifer.guesthouseapp.guesthouse.room.RoomType;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
@@ -29,7 +30,7 @@ public class RoomService {
 
     public Room createRoom(Room room){
         if(roomRepository.existsByRoomNumber(room.getRoomNumber())){
-            throw new RuntimeException("Room number already exists");
+            throw new BadRequest("Room number already exists");
         }
         validateRoom(room);
         return roomRepository.save(room);
@@ -50,17 +51,24 @@ public class RoomService {
     private void validateRoom(Room room) {
         if (room.getType() == RoomType.SINGLE){
             if (room.isExtraBedAllowed()){
-                throw new RuntimeException("Single room cannot have extra beds");
+                throw new BadRequest("Single room cannot have extra beds");
             }
             if (room.getBeds() != 1){
-                throw new RuntimeException("Single rooms must have exactly 1 bed");
+                throw new BadRequest("Single rooms must have exactly 1 bed");
             }
         }
         if (room.getType() == RoomType.DOUBLE){
             if (room.getBeds() != 2){
-                throw new RuntimeException("Double rooms must have exactly 2 beds");
+                throw new BadRequest("Double rooms must have exactly 2 beds");
             }
+        }
+        if (room.getPricePerNight() < 1){
+            throw new BadRequest("Price must be positiva");
         }
     }
 
+    public void deleteRoom(Long id) {
+        Room room = getRoomById(id);
+        roomRepository.delete(room);
+    }
 }
