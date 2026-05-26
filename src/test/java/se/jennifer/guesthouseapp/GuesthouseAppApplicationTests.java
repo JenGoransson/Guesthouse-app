@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
@@ -74,4 +75,20 @@ class GuesthouseAppApplicationTests {
         assertEquals("test@gmail.com", serviceResult.getEmail());
     }
 
+    @Test
+    void deleteCustomer() {
+        Long customerId = 1L;
+        Customer customer =  new Customer();
+        customer.setId(customerId);
+
+        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+
+        when(bookingRepository.existsByCustomerIdAndStatus(
+                customerId, BookingStatus.ACTIVE)).thenReturn(Boolean.TRUE
+        );
+
+        assertThrows(IllegalStateException.class, () -> customerService.deleteCustomer(customerId));
+
+        verify(customerRepository,never()).deleteById(anyLong());
+    }
 }
