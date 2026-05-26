@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import se.jennifer.guesthouseapp.guesthouse.booking.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
-import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.CreateCustomerRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.ChangePasswordRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.CreateCustomerRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.LoginRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.repository.CustomerRepository;
 import se.jennifer.guesthouseapp.guesthouse.error.BadRequest;
 import se.jennifer.guesthouseapp.guesthouse.error.NotFoundException;
@@ -116,5 +116,17 @@ public class CustomerService {
     public List<Booking> getCustomerBookings(Long customerId){
         getCustomerById(customerId);
         return bookingRepository.findByCustomerId(customerId);
+    }
+
+    public void changePassword(Long id, ChangePasswordRequest request){
+        Customer customer = getCustomerById(id);
+
+        if (!passwordEncoder.matches(request.currentPassword(), customer.getPassword())) {
+            throw new IllegalStateException("Wrong current password.");
+        }
+
+        customer.setPassword(passwordEncoder.encode(request.newPassword()));
+
+        customerRepository.save(customer);
     }
 }

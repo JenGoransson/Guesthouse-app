@@ -1,4 +1,4 @@
-package se.jennifer.guesthouseapp.guesthouse.customer.model;
+package se.jennifer.guesthouseapp.guesthouse.customer.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
