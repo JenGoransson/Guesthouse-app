@@ -2,6 +2,7 @@ package se.jennifer.guesthouseapp.guesthouse.customer.controller;
 
 import org.springframework.web.bind.annotation.*;
 import se.jennifer.guesthouseapp.guesthouse.customer.dto.ChangePasswordRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.UpdateCustomerRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
 import se.jennifer.guesthouseapp.guesthouse.customer.dto.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
@@ -64,5 +65,10 @@ public class CustomerController {
     @PutMapping("/{id}/change-password")
     public void changePassword(@PathVariable Long id, @RequestBody ChangePasswordRequest request){
         customerService.changePassword(id,request);
+    }
+
+    @PutMapping("/{id}")
+    public Customer UpdateCustomer (@PathVariable Long id, @RequestBody UpdateCustomerRequest request){
+        return customerService.updateCustomer(id,request);
     }
 }
