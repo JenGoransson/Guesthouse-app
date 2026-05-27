@@ -1,5 +1,6 @@
 package se.jennifer.guesthouseapp.guesthouse.customer.service;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -101,8 +102,8 @@ public class CustomerService {
         Customer customer = getCustomerById(customerId);
 
         if (hasActiveBookings(customerId)) {
-            throw new IllegalStateException
-                    ("Customer " + customer + " has active bokings and can therefore not be deleted.");
+            throw new BadRequest
+                    ("Warning! You have active bookings and can therefore not delete your account!");
         }
 
         customerRepository.delete(customer);
@@ -123,7 +124,7 @@ public class CustomerService {
         Customer customer = getCustomerById(id);
 
         if (!passwordEncoder.matches(request.currentPassword(), customer.getPassword())) {
-            throw new IllegalStateException("Wrong current password.");
+            throw new BadRequest("Incorrect password");
         }
 
         customer.setPassword(passwordEncoder.encode(request.newPassword()));

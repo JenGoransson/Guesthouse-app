@@ -128,10 +128,16 @@ body.dashboard-body {
 ========================================= */
 
 .error {
-    color: red;
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(255, 0, 0, 0.15);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    border-radius: 8px;
     text-align: center;
-    margin-top: 10px;
+    font-weight: bold;
+    color: #8b0000;
     font-size: 14px;
+    display: none;
 }
 
 /* SWITCH LINK
@@ -249,6 +255,7 @@ body.dashboard-body {
     font-weight: bold;
     color: #1f5e1f;
     font-size: 16px;
+    display: none;
 }
 
 /* Utility class */
