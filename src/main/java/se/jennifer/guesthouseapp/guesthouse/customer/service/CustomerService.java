@@ -9,6 +9,7 @@ import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
 import se.jennifer.guesthouseapp.guesthouse.customer.dto.ChangePasswordRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.dto.CreateCustomerRequest;
+import se.jennifer.guesthouseapp.guesthouse.customer.dto.UpdateCustomerRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
 import se.jennifer.guesthouseapp.guesthouse.customer.dto.LoginRequest;
 import se.jennifer.guesthouseapp.guesthouse.customer.repository.CustomerRepository;
@@ -129,5 +130,27 @@ public class CustomerService {
         customer.setPassword(passwordEncoder.encode(request.newPassword()));
 
         customerRepository.save(customer);
+    }
+    public Customer updateCustomer(Long id, UpdateCustomerRequest request){
+        Customer customer = getCustomerById(id);
+
+        boolean emailExists = customerRepository.existsByEmail(request.email());
+
+        if(emailExists && !customer.getEmail().equals(request.email())){
+            throw new IllegalStateException(request.email() + " already in use!");
+        }
+
+        boolean phoneExists = customerRepository.existsByPhone(request.phone());
+
+        if(phoneExists && customer.getPhone() != null && !customer.getPhone().equals(request.phone())){
+            throw new IllegalStateException(request.phone() + " already in use!");
+        }
+
+        customer.setFirstname(request.firstname());
+        customer.setLastname(request.lastname());
+        customer.setEmail(request.email());
+        customer.setPhone(request.phone());
+
+        return customerRepository.save(customer);
     }
 }

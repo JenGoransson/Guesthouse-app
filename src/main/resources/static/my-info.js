@@ -8,7 +8,8 @@ if (!customer) {
 
 //FYLL UT FORMEN MED KUND DATA
 
-document.getElementById("name").value = customer.firstname;
+document.getElementById("firstname").value = customer.firstname;
+document.getElementById("lastname").value = customer.lastname;
 document.getElementById("email_address").value = customer.email;
 document.getElementById("phone_number").value = customer.phone;
 
@@ -17,7 +18,8 @@ document.getElementById("phone_number").value = customer.phone;
 document.getElementById("saveBtn").addEventListener("click", async () => {
     const updatedCustomer = {
         id: customer.id,
-        firstname: document.getElementById("name").value,
+        firstname: document.getElementById("firstname").value,
+        lastname: document.getElementById("lastname").value,
         email: document.getElementById("email_address").value,
         phone: document.getElementById("phone_number").value,
     };
@@ -33,9 +35,9 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
     });
 
-    const successMessage = document.getElementById("success-message");
+    const successMessage = document.getElementById("successMessage");
 
-    const errorMessage = document.getElementById("error-message");
+    const errorMessage = document.getElementById("errorMessage");
 
     successMessage.style.display = "none";
     errorMessage.style.display = "none";
@@ -48,7 +50,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
         const text = await response.text();
 
         errorMessage.innerText = text;
-        successMessage.style.display = "block";
+        errorMessage.style.display = "block";
     }
 });
 // BYTA LÖSENORD
@@ -56,8 +58,8 @@ document.getElementById("changeBtn").addEventListener("click", async () => {
     const currentPassword = document.getElementById("current_password").value;
     const newPassword = document.getElementById("new_password").value;
     const confirmPassword = document.getElementById("confirm_password").value;
-    const successMessage = document.getElementById("success-message");
-    const errorMessage = document.getElementById("error-message");
+    const successMessage = document.getElementById("successMessage");
+    const errorMessage = document.getElementById("errorMessage");
     successMessage.style.display = "none";
     errorMessage.style.display = "none";
     if (newPassword !== confirmPassword) {
@@ -81,15 +83,34 @@ document.getElementById("changeBtn").addEventListener("click", async () => {
         document.getElementById("confirm_password").value = "";
     } else {
         const text = await response.text();
-
-        if (text.includes("Incorrect password")) {
-            errorMessage.innerText = "Current password is incorrect!.";
-        } else {
-            errorMessage.innerText = text;
-        }
-
+        errorMessage.innerText = text;
         errorMessage.style.display = "block";
     }
+});
+
+// TA BORT ANVÄNDARE
+document.getElementById("deleteBtn").addEventListener("click", async () => {
+    const confirmDeletion = confirm("Are you sure you want to delete your account?");
+    const successMessage = document.getElementById("successMessage");
+    const errorMessage = document.getElementById("errorMessage");
+    if (!confirmDeletion) return;
+
+    const response = await fetch(`http://localhost:8080/customers/${customer.id}`,
+        {
+            method: "DELETE",
+        });
+
+    if (response.ok) {
+        successMessage.innerText = "User deleted successfully.";
+        successMessage.style.display = "block";
+        localStorage.removeItem("customer");
+        window.location.href = "login.html";
+    } else {
+        const text = await response.text();
+        errorMessage.innerText = "Cannot delete a user with active bookings, cancel them first.";
+        errorMessage.style.display = "block";
+    }
+
 });
 
 // LOGGA UT
