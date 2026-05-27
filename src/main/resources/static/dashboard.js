@@ -8,3 +8,8 @@ if (!customer) {
 
 // Sätt namnet i välkomsttexten
 document.getElementById("customerName").textContent = customer.firstname;
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("customer");
+    window.location.href="login.html";
+})

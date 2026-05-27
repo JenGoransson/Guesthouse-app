@@ -93,25 +93,31 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
     const confirmDeletion = confirm("Are you sure you want to delete your account?");
     const successMessage = document.getElementById("successMessage");
     const errorMessage = document.getElementById("errorMessage");
+
+    successMessage.style.display = "none";
+    errorMessage.style.display = "none";
+
     if (!confirmDeletion) return;
 
-    const response = await fetch(`http://localhost:8080/customers/${customer.id}`,
-        {
-            method: "DELETE",
-        });
+    const response = await fetch(`http://localhost:8080/customers/${customer.id}`, {
+        method: "DELETE",
+    });
 
     if (response.ok) {
         successMessage.innerText = "User deleted successfully.";
         successMessage.style.display = "block";
-        localStorage.removeItem("customer");
-        window.location.href = "login.html";
+
+        setTimeout(() => {
+            localStorage.removeItem("customer");
+            window.location.href = "login.html";
+        }, 2000);
     } else {
         const text = await response.text();
-        errorMessage.innerText = "Cannot delete a user with active bookings, cancel them first.";
+        errorMessage.innerText = text || "Cannot delete user.";
         errorMessage.style.display = "block";
     }
-
 });
+
 
 // LOGGA UT
 document.getElementById("logoutBtn").addEventListener("click", () => {

@@ -102,8 +102,8 @@ public class CustomerService {
         Customer customer = getCustomerById(customerId);
 
         if (hasActiveBookings(customerId)) {
-            throw new IllegalStateException
-                    ("Customer " + customer + " has active bokings and can therefore not be deleted.");
+            throw new BadRequest
+                    ("Warning! You have active bookings and can therefore not delete your account!");
         }
 
         customerRepository.delete(customer);
