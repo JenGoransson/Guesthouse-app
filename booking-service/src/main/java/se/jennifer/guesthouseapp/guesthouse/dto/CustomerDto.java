@@ -1,4 +1,4 @@
 package se.jennifer.guesthouseapp.guesthouse.dto;
 
-public class CustomerDto {
-}
+public record CustomerDto (Long id, String name, String email)
+{}

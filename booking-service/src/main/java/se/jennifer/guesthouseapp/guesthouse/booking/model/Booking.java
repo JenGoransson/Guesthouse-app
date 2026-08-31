@@ -3,9 +3,7 @@ package se.jennifer.guesthouseapp.guesthouse.booking.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
-
 import java.time.LocalDate;
 
 @Entity

@@ -40,6 +40,4 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
             BookingStatus status
     );
 
-
-    Long room(Room room);
 }
