@@ -27,14 +27,6 @@ public class BookingServiceTest {
     @Mock
     BookingService bookingService;
 
-    @BeforeEach
-    public void setup(){
-        bookingService = new BookingService(
-                bookingRepository,
-                null,
-                null
-        );
-    }
 
     @Test
     void cancelBooking_ShouldSetStatusToCanceled(){

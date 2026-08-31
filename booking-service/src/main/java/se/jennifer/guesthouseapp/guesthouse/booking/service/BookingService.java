@@ -21,13 +21,11 @@ import java.util.List;
 public class BookingService {
 
     private final BookingRepository bookingRepo;
-    private final RoomService roomService; //Använda repo eller service...?
-    private final CustomerService customerService;
+    private final RoomService roomService;
 
-    public BookingService(BookingRepository bookingRepo, RoomService roomService, CustomerService customerService) {
+    public BookingService(BookingRepository bookingRepo, RoomService roomService) {
         this.bookingRepo = bookingRepo;
         this.roomService = roomService;
-        this.customerService = customerService;
     }
 
     public List<Booking> getAllBookings(){
@@ -60,14 +58,15 @@ public class BookingService {
         }
 
         Room room = roomService.getRoomById(request.roomId());
-        Customer customer = customerService.getCustomerById(request.customerId());
 
         if (isRoomBooked(room.getId(), request.startDate(), request.endDate())) {
             throw new BadRequest("Room is already booked between " + request.startDate() +  " and " + request.endDate());
         }
 
+        CustomerDto customer = customerClient.getCustomerById(request.customerId());
+
         Booking booking = new Booking(
-                customer,
+                request.customerId(),
                 room,
                 request.startDate(),
                 request.endDate(),

@@ -15,8 +15,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(optional = false) //En kund kan ha flera bokningar
-    private Customer customer;
+    private Long customerId;
 
     @ManyToOne(optional = false)
     private Room room;
@@ -35,8 +34,8 @@ public class Booking {
     public Booking(){
     }
 
-    public Booking(Customer customer, Room room, LocalDate startDate, LocalDate endDate, BookingStatus status){
-        this.customer = customer;
+    public Booking(Long customerId, Room room, LocalDate startDate, LocalDate endDate, BookingStatus status){
+        this.customerId = customerId;
         this.room = room;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -51,12 +50,12 @@ public class Booking {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Room getRoom() {
