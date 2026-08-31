@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Guesthouse-app" />
+        <module name="PensionarKundtjanst" />
+        <module name="ReviewService" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Guesthouse-app" options="-parameters" />
+      <module name="PensionarKundtjanst" options="-parameters" />
+      <module name="ReviewService" options="-parameters" />
+    </option>
+  </component>
+</project>

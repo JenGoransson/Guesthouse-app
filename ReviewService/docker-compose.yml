@@ -1,0 +1,22 @@
+services:
+  review-db:
+    image: mysql:8
+    container_name: review-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: reviewdb
+    ports:
+      - "3306:3306"
+    restart: always
+
+  review-service:
+    container_name: review-service
+    build: .
+    ports:
+      - "8082:8082"
+    depends_on:
+      - review-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://review-db:3306/reviewdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
