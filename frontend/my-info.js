@@ -1,6 +1,7 @@
 // HÄMTA KUNDER FRÅN LOCAL STORAGE
 
 const customer = JSON.parse(localStorage.getItem("customer"));
+const token = localStorage.getItem("token"); // hämta jwt token
 
 if (!customer) {
     window.location.href="login.html";
@@ -30,13 +31,13 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
         headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer " + token //jwt header
         },
         body: JSON.stringify(updatedCustomer),
 
     });
 
     const successMessage = document.getElementById("successMessage");
-
     const errorMessage = document.getElementById("errorMessage");
 
     successMessage.style.display = "none";
@@ -60,8 +61,10 @@ document.getElementById("changeBtn").addEventListener("click", async () => {
     const confirmPassword = document.getElementById("confirm_password").value;
     const successMessage = document.getElementById("successMessage");
     const errorMessage = document.getElementById("errorMessage");
+
     successMessage.style.display = "none";
     errorMessage.style.display = "none";
+
     if (newPassword !== confirmPassword) {
         errorMessage.innerText = "Passwords do not match";
         errorMessage.style.display = "block";
@@ -72,12 +75,14 @@ document.getElementById("changeBtn").addEventListener("click", async () => {
         method: "PUT",
             headers: {
             "Content-Type": "application/json",
+                "Authorization": "Bearer " + token //jwt header
             },
             body: JSON.stringify({currentPassword, newPassword}),
     })
     if (response.ok) {
         successMessage.innerText = "Password updated successfully.";
         successMessage.style.display = "block";
+
         document.getElementById("current_password").value = "";
         document.getElementById("new_password").value = "";
         document.getElementById("confirm_password").value = "";
@@ -101,6 +106,9 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
 
     const response = await fetch(`http://localhost:8081/customers/${customer.id}`, {
         method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + token //jwt header
+        }
     });
 
     if (response.ok) {
@@ -109,6 +117,7 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
 
         setTimeout(() => {
             localStorage.removeItem("customer");
+            localStorage.removeItem("token");
             window.location.href = "login.html";
         }, 2000);
     } else {
@@ -122,6 +131,7 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
 // LOGGA UT
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("customer");
+    localStorage.removeItem("token");
     window.location.href="login.html";
 })
 

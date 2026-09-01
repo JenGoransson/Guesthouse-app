@@ -22,9 +22,10 @@ if (loginForm) {
         });
 
         if (response.ok) {
-            const customer = await response.json();
-            localStorage.setItem("customer", JSON.stringify(customer));
-            localStorage.setItem("customerId", customer.id);
+            const data = await response.json();
+            localStorage.setItem("customer", JSON.stringify(data.customer)); //CustomerService måste returnera token
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("customerId", data.customer.id);
 
             window.location.href = "dashboard.html";
         } else {
