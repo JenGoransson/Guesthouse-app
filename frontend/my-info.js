@@ -24,7 +24,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
         phone: document.getElementById("phone_number").value,
     };
 
-    const response = await fetch(`http://localhost:8080/customers/${customer.id}`,
+    const response = await fetch(`http://localhost:8081/customers/${customer.id}`,
         {
         method: "PUT",
 
@@ -67,7 +67,7 @@ document.getElementById("changeBtn").addEventListener("click", async () => {
         errorMessage.style.display = "block";
         return;
     }
-    const response = await fetch(`http://localhost:8080/customers/${customer.id}/change-password`,
+    const response = await fetch(`http://localhost:8081/customers/${customer.id}/change-password`,
         {
         method: "PUT",
             headers: {
@@ -99,7 +99,7 @@ document.getElementById("deleteBtn").addEventListener("click", async () => {
 
     if (!confirmDeletion) return;
 
-    const response = await fetch(`http://localhost:8080/customers/${customer.id}`, {
+    const response = await fetch(`http://localhost:8081/customers/${customer.id}`, {
         method: "DELETE",
     });
 

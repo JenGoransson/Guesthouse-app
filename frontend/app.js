@@ -15,7 +15,7 @@ if (loginForm) {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        const response = await fetch("http://localhost:8080/customers/login", {
+        const response = await fetch("http://localhost:8081/customers/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
@@ -50,7 +50,7 @@ if (registerForm) {
         const phone = document.getElementById("phone").value;
         const password = document.getElementById("password").value;
 
-        const response = await fetch("http://localhost:8080/customers", {
+        const response = await fetch("http://localhost:8081/customers", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ firstname, lastname, email, phone, password })
