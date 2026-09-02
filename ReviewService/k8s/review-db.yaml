@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviewservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviewservice
+  template:
+    metadata:
+      labels:
+        app: reviewservice
+    spec:
+      containers:
+        - name: reviewservice
+          image: reviewservice:latest
+          ports:
+            - containerPort: 8082

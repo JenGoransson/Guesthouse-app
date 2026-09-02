@@ -1,8 +1,8 @@
-package com.example.reviewservice.controller;
+package com.example.reviewservice.review.controller;
 
-import com.example.reviewservice.Service.ReviewService;
-import com.example.reviewservice.dto.ReviewDTO;
-import com.example.reviewservice.model.Review;
+import com.example.reviewservice.review.Service.ReviewService;
+import com.example.reviewservice.review.dto.ReviewDTO;
+import com.example.reviewservice.review.model.Review;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

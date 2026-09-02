@@ -1,6 +1,6 @@
-package com.example.reviewservice.repository;
+package com.example.reviewservice.review.repository;
 
-import com.example.reviewservice.model.Review;
+import com.example.reviewservice.review.model.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

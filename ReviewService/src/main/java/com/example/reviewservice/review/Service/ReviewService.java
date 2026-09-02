@@ -1,10 +1,9 @@
-package com.example.reviewservice.Service;
+package com.example.reviewservice.review.Service;
 
-import com.example.reviewservice.dto.ReviewDTO;
-import com.example.reviewservice.model.Review;
-import com.example.reviewservice.repository.ReviewRepository;
+import com.example.reviewservice.review.dto.ReviewDTO;
+import com.example.reviewservice.review.model.Review;
+import com.example.reviewservice.review.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 

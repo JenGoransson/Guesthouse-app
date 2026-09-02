@@ -1,4 +1,4 @@
-package com.example.reviewservice.model;
+package com.example.reviewservice.review.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
