@@ -1,12 +1,14 @@
 package se.jennifer.guesthouseapp.guesthouse.room.service;
 
 import org.springframework.stereotype.Service;
+import se.jennifer.guesthouseapp.guesthouse.booking.service.BookingService;
 import se.jennifer.guesthouseapp.guesthouse.error.BadRequest;
 import se.jennifer.guesthouseapp.guesthouse.error.NotFoundException;
 import se.jennifer.guesthouseapp.guesthouse.room.model.RoomType;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
 import se.jennifer.guesthouseapp.guesthouse.room.repository.RoomRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,7 +17,6 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     public RoomService(RoomRepository roomRepository) {
-
         this.roomRepository = roomRepository;
     }
 

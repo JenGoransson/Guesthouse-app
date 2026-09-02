@@ -1,4 +1,21 @@
 services:
+
+  booking-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookingdb
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+
+  booking-service:
+    build: ./booking-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - booking-db
+
   review-db:
     image: mysql:8
     container_name: review-db
@@ -11,7 +28,7 @@ services:
 
   review-service:
     container_name: review-service
-    build: .
+    build: ReviewService
     ports:
       - "8082:8082"
     depends_on:

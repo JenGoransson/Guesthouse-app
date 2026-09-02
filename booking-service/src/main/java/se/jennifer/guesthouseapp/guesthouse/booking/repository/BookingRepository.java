@@ -31,7 +31,6 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
 
     boolean existsByCustomerIdAndStatus(Long customerId, BookingStatus status);
 
-    List<Booking> findByCustomerId(Long customerId);
 
     List<Booking> findByRoomId(Long roomId);
 
@@ -41,6 +40,4 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
             BookingStatus status
     );
 
-
-    Long room(Room room);
 }

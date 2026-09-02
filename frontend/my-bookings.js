@@ -1,5 +1,6 @@
 const customer = JSON.parse(localStorage.getItem("customer"));
 const customerId = customer.id;
+const token = localStorage.getItem("token");
 
 if (!customerId){
     window.location.href= "login.html";
@@ -78,7 +79,9 @@ async function saveBookingChange(id) {
 
     const response = await fetch(`http://localhost:8080/bookings/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
         body: JSON.stringify({
             startDate: start,
             endDate: end,
@@ -99,7 +102,10 @@ async function deleteBooking(id){
     if (!confirm("Are you sure you want to delete this booking?")) return;
 
     await fetch(`http://localhost:8080/bookings/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + token
+        }
     });
 
     loadBookings();

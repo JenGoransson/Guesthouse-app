@@ -11,5 +11,6 @@ document.getElementById("customerName").textContent = customer.firstname;
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("customer");
+    localStorage.removeItem("token");
     window.location.href="login.html";
 })

@@ -2,13 +2,13 @@ package se.jennifer.guesthouseapp.guesthouse.booking.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.BookingStatus;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.Booking;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.CreateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.model.UpdateBookingRequest;
 import se.jennifer.guesthouseapp.guesthouse.booking.repository.BookingRepository;
-import se.jennifer.guesthouseapp.guesthouse.customer.model.Customer;
-import se.jennifer.guesthouseapp.guesthouse.customer.service.CustomerService;
+import se.jennifer.guesthouseapp.guesthouse.dto.CustomerDto;
 import se.jennifer.guesthouseapp.guesthouse.error.BadRequest;
 import se.jennifer.guesthouseapp.guesthouse.error.NotFoundException;
 import se.jennifer.guesthouseapp.guesthouse.room.model.Room;
@@ -21,13 +21,13 @@ import java.util.List;
 public class BookingService {
 
     private final BookingRepository bookingRepo;
-    private final RoomService roomService; //Använda repo eller service...?
-    private final CustomerService customerService;
+    private final RoomService roomService;
+    private final RestTemplate restTemplate;
 
-    public BookingService(BookingRepository bookingRepo, RoomService roomService, CustomerService customerService) {
+    public BookingService(BookingRepository bookingRepo, RoomService roomService, RestTemplate restTemplate) {
         this.bookingRepo = bookingRepo;
         this.roomService = roomService;
-        this.customerService = customerService;
+        this.restTemplate = restTemplate;
     }
 
     public List<Booking> getAllBookings(){
@@ -60,14 +60,17 @@ public class BookingService {
         }
 
         Room room = roomService.getRoomById(request.roomId());
-        Customer customer = customerService.getCustomerById(request.customerId());
 
         if (isRoomBooked(room.getId(), request.startDate(), request.endDate())) {
             throw new BadRequest("Room is already booked between " + request.startDate() +  " and " + request.endDate());
         }
 
+        //Hämtar kund via HTTP
+        String url = "http://localhost:8081/customers/" + request.customerId();
+        CustomerDto customer = restTemplate.getForObject(url, CustomerDto.class);
+
         Booking booking = new Booking(
-                customer,
+                request.customerId(),
                 room,
                 request.startDate(),
                 request.endDate(),
@@ -135,9 +138,6 @@ public class BookingService {
         return bookingRepo.existsByRoomIdAndStatus(roomId, BookingStatus.ACTIVE);
     }
 
-    public boolean customerHasActiveBookings(Long customerId) {
-        return bookingRepo.existsByCustomerIdAndStatus(customerId, BookingStatus.ACTIVE);
-    }
 
     @Transactional
     public void cancelBooking(Long id){

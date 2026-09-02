@@ -15,16 +15,17 @@ if (loginForm) {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        const response = await fetch("http://localhost:8080/customers/login", {
+        const response = await fetch("http://localhost:8081/customers/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
         });
 
         if (response.ok) {
-            const customer = await response.json();
-            localStorage.setItem("customer", JSON.stringify(customer));
-            localStorage.setItem("customerId", customer.id);
+            const data = await response.json();
+            localStorage.setItem("customer", JSON.stringify(data.customer)); //CustomerService måste returnera token
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("customerId", data.customer.id);
 
             window.location.href = "dashboard.html";
         } else {
@@ -50,7 +51,7 @@ if (registerForm) {
         const phone = document.getElementById("phone").value;
         const password = document.getElementById("password").value;
 
-        const response = await fetch("http://localhost:8080/customers", {
+        const response = await fetch("http://localhost:8081/customers", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ firstname, lastname, email, phone, password })

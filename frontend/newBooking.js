@@ -1,4 +1,9 @@
+const customer = JSON.parse(localStorage.getItem("customer"));
+const token = localStorage.getItem("token");
 
+if (!customer) {
+    window.location.href = "login.html";
+}
 document.getElementById("date-form").addEventListener("submit", async function(e) {
     e.preventDefault();
 
@@ -74,8 +79,6 @@ document.getElementById("confirm-form").addEventListener("submit", async functio
         alert("Please select a room.");
         return;
     }
-
-    const customer = JSON.parse(localStorage.getItem("customer"));
     const customerId = customer.id;
 
     const bookingData = {
@@ -87,7 +90,9 @@ document.getElementById("confirm-form").addEventListener("submit", async functio
 
     const response = await fetch("/bookings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+        },
         body: JSON.stringify(bookingData)
     });
 
