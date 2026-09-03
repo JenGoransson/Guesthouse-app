@@ -1,8 +1,10 @@
-package com.example.reviewservice.review.Service;
+package com.example.reviewservice.Service;
 
-import com.example.reviewservice.review.dto.ReviewDTO;
-import com.example.reviewservice.review.model.Review;
-import com.example.reviewservice.review.repository.ReviewRepository;
+import com.example.reviewservice.client.BookingClient;
+import com.example.reviewservice.client.CustomerClient;
+import com.example.reviewservice.dto.ReviewDTO;
+import com.example.reviewservice.model.Review;
+import com.example.reviewservice.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +12,15 @@ import java.util.List;
 @Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final CustomerClient customerClient;
+    private  final BookingClient bookingClient;
 
 
-    public ReviewService(ReviewRepository reviewRepository) {
+    public ReviewService(ReviewRepository reviewRepository,CustomerClient customerClient, BookingClient bookingClient) {
 
         this.reviewRepository = reviewRepository;
+        this.customerClient = customerClient;
+        this.bookingClient = bookingClient;
 
     }
     public Review createReview(ReviewDTO dto){
@@ -26,7 +32,7 @@ public class ReviewService {
            }
            Review review = new Review(
                    dto.customerId(),
-                   dto.bookingId(),
+                   dto.roomId(),
                    dto.rating(),
                    dto.comment()
            );
@@ -41,7 +47,7 @@ public class ReviewService {
     public List<Review> getReviewsByCustomer(Long customerId){
         return reviewRepository.findByCustomerId(customerId);
     }
-    public List<Review> getReviewsByBooking(Long bookingId){
-        return reviewRepository.findByBookingId(bookingId);
+    public List<Review> getReviewsByRoom(Long roomId){
+        return reviewRepository.findByRoomId(roomId);
     }
 }
