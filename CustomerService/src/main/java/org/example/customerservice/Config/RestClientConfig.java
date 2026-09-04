@@ -1,4 +1,4 @@
-package org.example.pensionarkundtjanst.Config;
+package org.example.customerservice.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
