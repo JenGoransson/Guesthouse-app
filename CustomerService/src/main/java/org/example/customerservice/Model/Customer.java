@@ -2,13 +2,14 @@ package org.example.customerservice.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Customer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String firstName;
@@ -17,7 +18,7 @@ public class Customer {
 
     private String email;
 
-    private String password;
+    private String passwordHash;
 
     private String phoneNumber;
 
@@ -25,11 +26,11 @@ public class Customer {
 
     }
 
-    public Customer(String firstName, String lastName, String email, String password, String phoneNumber) {
+    public Customer(String firstName, String lastName, String email, String passwordHash, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
     }
 
@@ -57,11 +58,11 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String password) {
+        this.passwordHash = password;
     }
     public String getPhoneNumber() {
         return phoneNumber;
