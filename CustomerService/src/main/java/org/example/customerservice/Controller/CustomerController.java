@@ -4,6 +4,7 @@ import org.example.customerservice.Model.Customer;
 import org.example.customerservice.Service.CustomerService;
 import org.example.customerservice.dto.CreateCustomerRequest;
 import org.example.customerservice.dto.CustomerResponse;
+import org.example.customerservice.dto.UpdateCustomerRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,10 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
+    }
+
+    @PatchMapping("/{id}")
+    public CustomerResponse updateCustomer(@PathVariable Long id, @RequestBody UpdateCustomerRequest request) {
+        return customerService.updateCustomer(id, request);
     }
 }

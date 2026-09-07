@@ -4,6 +4,7 @@ import org.example.customerservice.Model.Customer;
 import org.example.customerservice.Repo.CustomerRepo;
 import org.example.customerservice.dto.CreateCustomerRequest;
 import org.example.customerservice.dto.CustomerResponse;
+import org.example.customerservice.dto.UpdateCustomerRequest;
 import org.example.customerservice.error.BadRequest;
 import org.example.customerservice.error.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -68,6 +69,37 @@ public class CustomerService {
         }
 
         customerRepo.delete(customer);
+    }
+
+    public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
+        Customer customer = customerRepo
+                .findById(id).orElseThrow(() -> new NotFoundException("Customer with id " + id + " not found"));
+        if (request.firstName() != null) {
+            customer.setFirstName(request.firstName());
+        }
+        if (request.lastName() != null) {
+            customer.setLastName(request.lastName());
+        }
+        if (request.phoneNumber() != null) {
+            customer.setPhoneNumber(request.phoneNumber());
+        }
+        if (request.email() != null) {
+            if (!request.email().equals(customer.getEmail()) && customerRepo.existsByEmail(request.email())) {
+                throw new BadRequest("Customer with email " + request.email() + " already exists");
+            }
+            customer.setEmail(request.email());
+        }
+        if (request.password() != null) {
+            String hashedPassword = passwordEncoder.encode(request.password());
+            customer.setPasswordHash(hashedPassword);
+        }
+
+        try {
+            Customer savedCustomer = customerRepo.save(customer);
+            return toDTO(savedCustomer);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequest("Could not update customer");
+        }
     }
 
     public CustomerResponse toDTO(Customer customer) {
