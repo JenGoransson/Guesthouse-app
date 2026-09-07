@@ -14,7 +14,6 @@ public class BookingClient {
     private final RestTemplate restTemplate;
     private final String bookingServiceUrl;
 
-
     public BookingClient(RestTemplate restTemplate,
                          @Value("${booking.service.base-url}")String bookingServiceUrl){
         this.restTemplate = restTemplate;

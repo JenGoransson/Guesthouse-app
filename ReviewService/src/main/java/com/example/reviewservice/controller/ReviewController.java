@@ -1,6 +1,6 @@
 package com.example.reviewservice.controller;
 
-import com.example.reviewservice.Service.ReviewService;
+import com.example.reviewservice.service.ReviewService;
 import com.example.reviewservice.dto.ReviewDTO;
 import com.example.reviewservice.model.Review;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,6 @@ public class ReviewController {
     public ResponseEntity<List<Review>> getByCustomer(@PathVariable Long customerId) {
         return ResponseEntity.ok(reviewService.getReviewsByCustomer(customerId));
     }
-
 
 }
 

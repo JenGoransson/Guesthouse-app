@@ -1,4 +1,4 @@
-package com.example.reviewservice.Service;
+package com.example.reviewservice.service;
 
 import com.example.reviewservice.client.BookingClient;
 import com.example.reviewservice.client.CustomerClient;
