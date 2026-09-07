@@ -2,8 +2,13 @@ package org.example.customerservice.Service;
 
 import org.example.customerservice.Model.Customer;
 import org.example.customerservice.Repo.CustomerRepo;
-import org.example.customerservice.dto.CustomerDTO;
+import org.example.customerservice.dto.CreateCustomerRequest;
+import org.example.customerservice.dto.CustomerResponse;
+import org.example.customerservice.dto.UpdateCustomerRequest;
+import org.example.customerservice.error.BadRequest;
+import org.example.customerservice.error.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,49 +20,91 @@ public class CustomerService {
 
     private final CustomerRepo customerRepo;
     private final BookingClient bookingClient;
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(CustomerRepo CustomerRepo, BookingClient bookingClient) {
+    public CustomerService(CustomerRepo CustomerRepo, BookingClient bookingClient, PasswordEncoder passwordEncoder) {
         this.customerRepo = CustomerRepo;
         this.bookingClient = bookingClient;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public List<CustomerDTO> getAllCustomers() {
+    public List<CustomerResponse> getAllCustomers() {
         return customerRepo.findAll().stream().map(this::toDTO).toList() ;
     }
 
-    public CustomerDTO getCustomerById(Long id) {
+    public CustomerResponse getCustomerById(Long id) {
         Customer customer = customerRepo.findById(id).orElseThrow(()
-                -> new RuntimeException("Customer with id " + id + " not found"));
+                -> new NotFoundException("Customer with id " + id + " not found"));
 
         return toDTO(customer);
     }
 
-    public Customer createCustomer(Customer customer) {
-        if (customerRepo.existsByEmail(customer.getEmail())) {
-            throw new RuntimeException("Customer with email " + customer.getEmail() + " already exists");
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
+        if (customerRepo.existsByEmail(request.email())) {
+            throw new BadRequest("Customer with email " + request.email() + " already exists");
         }
 
+        Customer customer = new Customer();
+        customer.setFirstName(request.firstName());
+        customer.setLastName(request.lastName());
+        customer.setEmail(request.email());
+        customer.setPhoneNumber(request.phoneNumber());
+        String hashedPassword = passwordEncoder.encode(request.password());
+        customer.setPasswordHash(hashedPassword);
+
         try {
-            return customerRepo.save(customer);
+            Customer savedCustomer = customerRepo.save(customer);
+            return toDTO(savedCustomer);
         } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("Customer with email " + customer.getEmail() + " already exists");
+            throw new BadRequest("Customer with email " + request.email() + " already exists");
         }
     }
 
     public void deleteCustomer(Long id) {
         Customer customer = customerRepo.findById(id).orElseThrow(()
-                -> new RuntimeException("Customer with id " + id + " not found"));
+                -> new NotFoundException("Customer with id " + id + " not found"));
 
         if (bookingClient.hasActiveBookings(id)) {
-            throw new RuntimeException("Customer with id " + id + " has active bookings and cannot be deleted");
+            throw new BadRequest("Customer with id " + id + " has active bookings and cannot be deleted");
         }
 
         customerRepo.delete(customer);
     }
 
-    public CustomerDTO toDTO(Customer customer) {
+    public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
+        Customer customer = customerRepo
+                .findById(id).orElseThrow(() -> new NotFoundException("Customer with id " + id + " not found"));
+        if (request.firstName() != null) {
+            customer.setFirstName(request.firstName());
+        }
+        if (request.lastName() != null) {
+            customer.setLastName(request.lastName());
+        }
+        if (request.phoneNumber() != null) {
+            customer.setPhoneNumber(request.phoneNumber());
+        }
+        if (request.email() != null) {
+            if (!request.email().equals(customer.getEmail()) && customerRepo.existsByEmail(request.email())) {
+                throw new BadRequest("Customer with email " + request.email() + " already exists");
+            }
+            customer.setEmail(request.email());
+        }
+        if (request.password() != null) {
+            String hashedPassword = passwordEncoder.encode(request.password());
+            customer.setPasswordHash(hashedPassword);
+        }
 
-        return new CustomerDTO(customer.getId(), customer.getFirstName(), customer.getLastName(),
+        try {
+            Customer savedCustomer = customerRepo.save(customer);
+            return toDTO(savedCustomer);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequest("Could not update customer");
+        }
+    }
+
+    public CustomerResponse toDTO(Customer customer) {
+
+        return new CustomerResponse(customer.getId(), customer.getFirstName(), customer.getLastName(),
                 customer.getEmail(), customer.getPhoneNumber());
     }
 }

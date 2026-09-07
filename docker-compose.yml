@@ -1,32 +1,48 @@
 services:
 
+
+  customer-db:
+    image: mysql:8
+    container_name: customer-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: customerdb
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    restart:
+      always
+
+  customer-service:
+    container_name: customer-service
+    build: ./CustomerService
+    ports:
+      - "8081:8081"
+    depends_on:
+      - customer-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://customer-db:3306/customerdb
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+
   booking-db:
     image: mysql:8
-    container_name: booking-db
+    ports:
+      - "3309:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bookingdb
-    ports:
-      - "3308:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
 
   booking-service:
-    container_name: booking-service
     build: ./booking-service
     ports:
       - "8080:8080"
     depends_on:
-      booking-db:
-        condition: service_healthy
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://booking-db:3306/bookingdb
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-
+      - booking-db
 
   review-db:
     image: mysql:8
@@ -35,53 +51,17 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: reviewdb
     ports:
-      - "3307:3306"
+      - "3308:3306"
     restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
 
   review-service:
     container_name: review-service
-    build: ./ReviewService
+    build: ReviewService
     ports:
       - "8082:8082"
     depends_on:
-      review-db:
-        condition: service_healthy
+      - review-db
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://review-db:3306/reviewdb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-
-
-  customer-db:
-    image: mysql:8
-    container_name: customer-db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: customerdb
-    ports:
-      - "3309:3306"
-    restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
-  customer-service:
-    container_name: customer-service
-    build: ./CustomerService
-    ports:
-      - "8081:8081"
-    depends_on:
-      customer-db:
-        condition: service_healthy
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://review-db:3306/customerdb
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      CUSTOMER_SERVICE_BASE_URL: http://customer-service:8081

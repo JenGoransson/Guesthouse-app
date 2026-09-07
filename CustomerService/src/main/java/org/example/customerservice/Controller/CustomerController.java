@@ -2,7 +2,9 @@ package org.example.customerservice.Controller;
 
 import org.example.customerservice.Model.Customer;
 import org.example.customerservice.Service.CustomerService;
-import org.example.customerservice.dto.CustomerDTO;
+import org.example.customerservice.dto.CreateCustomerRequest;
+import org.example.customerservice.dto.CustomerResponse;
+import org.example.customerservice.dto.UpdateCustomerRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,24 +20,29 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerDTO> getAllCustomers() {
+    public List<CustomerResponse> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
     @GetMapping("/{id}")
-    public CustomerDTO getCustomer(@PathVariable Long id) {
+    public CustomerResponse getCustomer(@PathVariable Long id) {
         return customerService.getCustomerById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerService.createCustomer(customer);
+    public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
+        return customerService.createCustomer(request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
+    }
+
+    @PatchMapping("/{id}")
+    public CustomerResponse updateCustomer(@PathVariable Long id, @RequestBody UpdateCustomerRequest request) {
+        return customerService.updateCustomer(id, request);
     }
 }
