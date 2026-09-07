@@ -7,3 +7,7 @@
 /dataSources/
 /dataSources.local.xml
 **/application.properties
+
+CustomerService/src/main/resources/application.properties
+ReviewService/src/main/resources/application.properties
+booking-service/src/main/resources/application.properties
