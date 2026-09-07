@@ -7,13 +7,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Guesthouse-app" />
-        <module name="PensionarKundtjanst" />
         <module name="ReviewService" />
+        <module name="CustomerService" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="PensionarKundtjanst" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CustomerService" options="-parameters" />
       <module name="Guesthouse-app" options="-parameters" />
       <module name="PensionarKundtjanst" options="-parameters" />
       <module name="ReviewService" options="-parameters" />
