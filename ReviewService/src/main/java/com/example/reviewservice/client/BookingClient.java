@@ -26,7 +26,7 @@ public class BookingClient {
             headers.set("Authorization", authHeader);
             HttpEntity<Void> entity = new HttpEntity<>(headers);
             ResponseEntity<Boolean> response = restTemplate.exchange(
-                    bookingServiceUrl + "/booking/customer/" + customerId + "/room/" + roomId,
+                    bookingServiceUrl + "/bookings/customer/" + customerId + "/room/" + roomId,
                     HttpMethod.GET,entity,Boolean.class
             );
             return Boolean.TRUE.equals(response.getBody());
